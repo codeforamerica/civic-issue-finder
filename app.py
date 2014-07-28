@@ -28,11 +28,11 @@ def find():
   labels = request.form['labels']
   labels.replace(' ', '')
 
-  issues = get('http://localhost:5000/api/issues/labels/'+labels)
+  issues = get('http://localhost:5000/api/issues/labels/'+labels+'?per_page=100')
   print issues.content
   issues = json.loads(issues.content)
 
-  return render_template('index.html', issues=issues['objects'])
+  return render_template('index.html', issues=issues['objects'], labels=request.form['labels'])
 
 
 if __name__ == "__main__":
