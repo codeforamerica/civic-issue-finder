@@ -17,6 +17,7 @@ label {
 
 .issue-labels {
   float: right;
+  font-size: 1.2em;
 }
 
 .label-link {

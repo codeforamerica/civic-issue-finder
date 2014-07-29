@@ -20,7 +20,7 @@ app = Flask(__name__)
 def index():
   org_name = request.args.get('organization_name')
   default_labels = request.args.get('default_labels')
-  return render_template('index.html', org_name=org_name, default_labels=default_labels)
+  return render_template('index.html', org_name=org_name, default_labels=default_labels, main=True)
 
 @app.route('/find', methods=['POST'])
 def find():
