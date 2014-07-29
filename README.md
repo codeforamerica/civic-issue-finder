@@ -6,7 +6,7 @@ A small, embedable and customizable web app to find civic issues to work on base
 How to Use
 ======
 
-This widget can be [accessed directily](http://civicissues.herokuapp.com), or it can be embeded into any webpage with the following code:
+This widget can be [accessed directly](http://civicissues.herokuapp.com), or it can be embeded into any webpage with the following code:
 
 ```html
 <iframe src="http://civicissues.herokuapp.com/" width='300' height='400'></iframe>
