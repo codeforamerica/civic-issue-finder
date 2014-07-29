@@ -5,6 +5,7 @@
 from flask import Flask, render_template, request
 import json
 from requests import get
+from requests.exceptions import ConnectionError
 
 # -------------------
 # Init
@@ -40,12 +41,18 @@ def find():
     default_labels.replace(' ', '')
     labels += ',' + default_labels
 
-  # If we have an organization name only query that organization
-  if org_name != 'None':
-    issues = get('http://localhost:5000/api/organizations/%s/issues/labels/%s?per_page=100' % (org_name, labels))
-  # Otherwise get issues across all organizations
-  else:
-    issues = get('http://localhost:5000/api/issues/labels/'+labels+'?per_page=100')
+  try:
+    # If we have an organization name only query that organization
+    if org_name != 'None':
+      issues = get('http://localhost:5000/api/organizations/%s/issues/labels/%s?per_page=100' % (org_name, labels))
+    # Otherwise get issues across all organizations
+    else:
+      issues = get('http://localhost:5000/api/issues/labels/'+labels+'?per_page=100')
+  except ConnectionError, e:
+    return render_template('index.html', org_name=org_name, default_labels=default_labels, error=True)
+
+  if issues.status_code != 200:
+    return render_template('index.html', org_name=org_name, default_labels=default_labels, error=True)
 
   # Parse the API response
   issues = json.loads(issues.content)
