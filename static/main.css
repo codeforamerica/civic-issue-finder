@@ -1,3 +1,11 @@
+body {
+  font-family: Helvetica;
+}
+
+label {
+  font-size: 1.2em;
+}
+
 .issue {
   border: 1px solid black;
   margin-bottom: 5px;
