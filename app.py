@@ -27,21 +27,27 @@ def find():
   '''
   Finds issues based on the given label
   '''
+  # Get optional parameters
   org_name = request.form.get('org_name', None)
   default_labels = request.form.get('default_labels', None)
 
+  # Get labels from form
   labels = request.form['labels']
   labels.replace(' ', '')
 
+  # Include optional labels
   if default_labels != 'None':
     default_labels.replace(' ', '')
     labels += ',' + default_labels
 
+  # If we have an organization name only query that organization
   if org_name != 'None':
     issues = get('http://localhost:5000/api/organizations/%s/issues/labels/%s?per_page=100' % (org_name, labels))
+  # Otherwise get issues across all organizations
   else:
     issues = get('http://localhost:5000/api/issues/labels/'+labels+'?per_page=100')
 
+  # Parse the API response
   issues = json.loads(issues.content)
 
   return render_template('index.html', issues=issues['objects'], labels=request.form['labels'], org_name=org_name, default_labels=default_labels)
