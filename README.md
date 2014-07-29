@@ -9,7 +9,7 @@ How to Use
 This widget can be [accessed directily](http://civicissues.herokuapp.com), or it can be embeded into any webpage with the following code:
 
 ```html
-<iframe src="http://civicissues.herokuapp.com?default_labels=hack" width='300' height='400'></iframe>
+<iframe src="http://civicissues.herokuapp.com/" width='300' height='400'></iframe>
 ```
 
 The url in the `src` attribute of the iframe can be given the following query params to cutomize your widget
