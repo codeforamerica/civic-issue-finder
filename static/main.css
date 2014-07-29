@@ -14,3 +14,15 @@ label {
 .issue p,h4 {
   overflow: hidden;
 }
+
+.issue-labels {
+  float: right;
+}
+
+.label-link {
+  color: black;
+}
+
+.label-link:hover {
+  text-decoration: none;
+}

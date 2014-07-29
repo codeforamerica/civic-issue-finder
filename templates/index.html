@@ -29,9 +29,22 @@
       <div class='row'>
         {% for issue in issues %}
           <div class='col-sm-4 col-sm-offset-4 issue'>
-            <a href="{{ issue.project.code_url }}">
-              <h4>{{ issue.project.name }}</h4>
-            </a>
+            <div class='issue-labels'>
+              {% for label in issue.labels %}
+                <div class='label' style='background-color: #{{ label.color }}'>
+                  <a href="{{ label.url }}" class='label-link'>
+                    {{ label.name }}
+                  </a>
+                </div>
+                &nbsp;
+              {% endfor %}
+            </div>
+            <br>
+            <h4>
+              <a href="{{ issue.project.code_url }}">
+                {{ issue.project.name }}
+              </a>
+            </h4>
             <p>{{ issue.project.description }}</p>
             <a href="{{ issue.html_url }}">
               <h4>{{ issue.title }}</h4>
