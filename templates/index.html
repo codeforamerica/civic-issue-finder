@@ -37,9 +37,16 @@
                   </a>
                 </div>
                 &nbsp;
+                {% if loop.index % 2 == 0 %}
+                  <br>
+                {% endif %}
               {% endfor %}
             </div>
-            <br>
+            {% for label in issue.labels %}
+              {% if (loop.index % 2) == 0 %}
+                <br>
+              {% endif %}
+            {% endfor %}
             <h4>
               <a href="{{ issue.project.code_url }}">
                 {{ issue.project.name }}
