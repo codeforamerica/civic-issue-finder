@@ -19,9 +19,23 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+  names = []
+  # Get all of the organizations from the api
+  organizations = get('http://codeforamerica.org/api/organizations?per_page=200')
+  organizations = json.loads(organizations.content)
+
+  # Filter out just the organization names
+  for org in organizations['objects']:
+    names.append(org['name'])
+
+  # Render index and pass in all of the organization names
+  return render_template('index.html', organization_names=names)
+
+@app.route('/widget')
+def widget():
   org_name = request.args.get('organization_name')
   default_labels = request.args.get('default_labels')
-  return render_template('index.html', org_name=org_name, default_labels=default_labels, main=True)
+  return render_template('widget.html', org_name=org_name, default_labels=default_labels, main=True)
 
 @app.route('/find', methods=['POST'])
 def find():
@@ -65,8 +79,8 @@ def find():
       else:
         l['text_color'] = '000000'
 
-  return render_template('index.html', issues=issues['objects'], labels=request.form['labels'], org_name=org_name, default_labels=default_labels)
+  return render_template('widget.html', issues=issues['objects'], labels=request.form['labels'], org_name=org_name, default_labels=default_labels)
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=4000)
+    app.run(debug=True)
