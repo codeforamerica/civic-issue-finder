@@ -20,10 +20,6 @@ label {
   font-size: 1.2em;
 }
 
-.label-link {
-  color: black;
-}
-
 .label-link:hover {
   text-decoration: none;
 }

@@ -57,6 +57,14 @@ def find():
   # Parse the API response
   issues = json.loads(issues.content)
 
+  # Add text_color for each issue
+  for iss in issues['objects']:
+    for l in iss['labels']:
+      if l['color'] < '888888':
+        l['text_color'] = 'FFFFFF'
+      else:
+        l['text_color'] = '000000'
+
   return render_template('index.html', issues=issues['objects'], labels=request.form['labels'], org_name=org_name, default_labels=default_labels)
 
 

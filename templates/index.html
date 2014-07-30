@@ -52,13 +52,13 @@
             <p class='issue-body'>Issue body</p>
             <div class="issue-labels">
                 <div class="label" style="background-color: #fc2929">
-                  <a href="https://api.github.com/repos/open-austin/austin-recycles/labels/bug" class="label-link">
+                  <a href="https://api.github.com/repos/open-austin/austin-recycles/labels/bug" class="label-link" style="color: #FFFFFF">
                     label 1
                   </a>
                 </div>
                 &nbsp;
                 <div class="label" style="background-color: #fef2c0">
-                  <a href="https://api.github.com/repos/open-austin/austin-recycles/labels/hack" class="label-link">
+                  <a href="https://api.github.com/repos/open-austin/austin-recycles/labels/hack" class="label-link" style="color: #000000">
                     label 2
                   </a>
                 </div>
@@ -87,7 +87,7 @@
               <div class='issue-labels'>
                 {% for label in issue.labels %}
                   <div class='label' style='background-color: #{{ label.color }}'>
-                    <a href="{{ label.url }}" class='label-link'>
+                    <a href="{{ label.url }}" class='label-link' style="color: #{{ label.text_color }}">
                       {{ label.name }}
                     </a>
                   </div>
