@@ -31,6 +31,9 @@ def index():
     for org in organizations['objects']:
       names.append(org['name'])
 
+    # Alphabetize names
+    names.sort()
+
     session['organizations'] = names
     session.modified = True
 
