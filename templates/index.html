@@ -19,7 +19,7 @@
         <h3>Embed this to your Brigade site:</h3>
         <ol>
           <li>
-            Choose an organization, or leave blank to query all of the api. <br>
+            If you want to filter by just an organization choose an organization. Leave blank to query all of the api. <br>
             <select name="organizations" id="organization">
               <option value="">---</option>
               {% for name in organization_names %}
@@ -27,10 +27,12 @@
               {% endfor %}
             </select>
           </li>
+          <br>
           <li>
-            Enter a list of labels to always use when searching. <br>
+            If you want, enter a list of labels to always use when searching. <br>
             <input id="labels" type="text" name="labels" placeholder='help,hack,feature'>
           </li>
+          <br>
           <li>
             Copy the following code somewhere in your website. <br>
             <code id="embed">&lt;iframe src="http://localhost:5000/widget" width='300' height='600'&gt; &lt;&#47;iframe&gt;</code>
