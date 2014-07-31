@@ -51,12 +51,14 @@ def find():
 
   # Get labels from form
   labels = request.form['labels']
-  labels.replace(' ', '')
 
   # Include optional labels
   if default_labels != 'None':
     default_labels.replace(' ', '')
     labels += ',' + default_labels
+
+  # Remove possible whitespace (ex: "enhancement, hack")
+  labels.replace(' ', '')
 
   # Get the actual issues from the API
   try:
@@ -84,7 +86,6 @@ def find():
         l['text_color'] = '000000'
 
   return render_template('widget.html', issues=issues['objects'], labels=request.form['labels'], org_name=org_name, default_labels=default_labels)
-
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -31,6 +31,9 @@ class AppTestCase(TestCase):
     elif url.geturl() == 'http://codeforamerica.org/api/organizations/Code%20for%20San%20Francisco/issues/labels/enhancement,hack?per_page=100':
       return response(200, ''' {"objects":[{"api_url":"http://codeforamerica.org/api/issues/81","body":"Start writing tests. ","html_url":"https://github.com/sfbrigade/ballot_initiatives/issues/7","id":81,"labels":[{"color":"84b6eb","name":"enhancement","url":"https://api.github.com/repos/sfbrigade/ballot_initiatives/labels/enhancement"}],"project":{"api_url":"http://codeforamerica.org/api/projects/108","categories":null,"code_url":"https://github.com/sfbrigade/ballot_initiatives","description":"","github_details":{"contributors":[{"avatar_url":"https://avatars.githubusercontent.com/u/613334?v=1","contributions":16,"html_url":"https://github.com/andyhull","login":"andyhull","owner":false,"url":"https://api.github.com/users/andyhull"},{"avatar_url":"https://avatars.githubusercontent.com/u/1056580?v=1","contributions":10,"html_url":"https://github.com/mluedke2","login":"mluedke2","owner":false,"url":"https://api.github.com/users/mluedke2"},{"avatar_url":"https://avatars.githubusercontent.com/u/1231630?v=1","contributions":4,"html_url":"https://github.com/seanknox","login":"seanknox","owner":false,"url":"https://api.github.com/users/seanknox"},{"avatar_url":"https://avatars.githubusercontent.com/u/534176?v=1","contributions":3,"html_url":"https://github.com/jasonlally","login":"jasonlally","owner":false,"url":"https://api.github.com/users/jasonlally"},{"avatar_url":"https://avatars.githubusercontent.com/u/930705?v=1","contributions":1,"html_url":"https://github.com/charliemoseley","login":"charliemoseley","owner":false,"url":"https://api.github.com/users/charliemoseley"},{"avatar_url":"https://avatars.githubusercontent.com/u/1310178?v=1","contributions":1,"html_url":"https://github.com/julianeon","login":"julianeon","owner":false,"url":"https://api.github.com/users/julianeon"},{"avatar_url":"https://avatars.githubusercontent.com/u/567099?v=1","contributions":1,"html_url":"https://github.com/nmu","login":"nmu","owner":false,"url":"https://api.github.com/users/nmu"}],"contributors_url":"https://api.github.com/repos/sfbrigade/ballot_initiatives/contributors","created_at":"2013-06-13T02:16:06Z","description":"","forks_count":4,"homepage":null,"html_url":"https://github.com/sfbrigade/ballot_initiatives","id":10656947,"language":"JavaScript","name":"ballot_initiatives","open_issues":7,"owner":{"avatar_url":"https://avatars.githubusercontent.com/u/3926630?v=1","html_url":"https://github.com/sfbrigade","login":"sfbrigade","type":"Organization"},"participation":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"pushed_at":"2013-07-18T02:45:12Z","updated_at":"2013-07-18T02:45:18Z","watchers_count":1},"id":108,"last_updated":"Thu, 18 Jul 2013 02:45:18 GMT","last_updated_issues":"4553d9e6d2b787234fbf1a2eff34b1ba","link_url":null,"name":"ballot_initiatives","organization_name":"Code for San Francisco","type":null},"title":"Write some tests"},{"api_url":"http://codeforamerica.org/api/issues/82","body":"Get the site up on a heroku account. ","html_url":"https://github.com/sfbrigade/ballot_initiatives/issues/6","id":82,"labels":[{"color":"84b6eb","name":"enhancement","url":"https://api.github.com/repos/sfbrigade/ballot_initiatives/labels/enhancement"}],"project":{"api_url":"http://codeforamerica.org/api/projects/108","categories":null,"code_url":"https://github.com/sfbrigade/ballot_initiatives","description":"","github_details":{"contributors":[{"avatar_url":"https://avatars.githubusercontent.com/u/613334?v=1","contributions":16,"html_url":"https://github.com/andyhull","login":"andyhull","owner":false,"url":"https://api.github.com/users/andyhull"},{"avatar_url":"https://avatars.githubusercontent.com/u/1056580?v=1","contributions":10,"html_url":"https://github.com/mluedke2","login":"mluedke2","owner":false,"url":"https://api.github.com/users/mluedke2"},{"avatar_url":"https://avatars.githubusercontent.com/u/1231630?v=1","contributions":4,"html_url":"https://github.com/seanknox","login":"seanknox","owner":false,"url":"https://api.github.com/users/seanknox"},{"avatar_url":"https://avatars.githubusercontent.com/u/534176?v=1","contributions":3,"html_url":"https://github.com/jasonlally","login":"jasonlally","owner":false,"url":"https://api.github.com/users/jasonlally"},{"avatar_url":"https://avatars.githubusercontent.com/u/930705?v=1","contributions":1,"html_url":"https://github.com/charliemoseley","login":"charliemoseley","owner":false,"url":"https://api.github.com/users/charliemoseley"},{"avatar_url":"https://avatars.githubusercontent.com/u/1310178?v=1","contributions":1,"html_url":"https://github.com/julianeon","login":"julianeon","owner":false,"url":"https://api.github.com/users/julianeon"},{"avatar_url":"https://avatars.githubusercontent.com/u/567099?v=1","contributions":1,"html_url":"https://github.com/nmu","login":"nmu","owner":false,"url":"https://api.github.com/users/nmu"}],"contributors_url":"https://api.github.com/repos/sfbrigade/ballot_initiatives/contributors","created_at":"2013-06-13T02:16:06Z","description":"","forks_count":4,"homepage":null,"html_url":"https://github.com/sfbrigade/ballot_initiatives","id":10656947,"language":"JavaScript","name":"ballot_initiatives","open_issues":7,"owner":{"avatar_url":"https://avatars.githubusercontent.com/u/3926630?v=1","html_url":"https://github.com/sfbrigade","login":"sfbrigade","type":"Organization"},"participation":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"pushed_at":"2013-07-18T02:45:12Z","updated_at":"2013-07-18T02:45:18Z","watchers_count":1},"id":108,"last_updated":"Thu, 18 Jul 2013 02:45:18 GMT","last_updated_issues":"4553d9e6d2b787234fbf1a2eff34b1ba","link_url":null,"name":"ballot_initiatives","organization_name":"Code for San Francisco","type":null},"title":"Add an instance on heroku"}],"pages":{"last":"http://codeforamerica.org/api/organizations/Code for San Francisco/issues/labels/enhancement,hack?page=7&per_page=2","next":"http://codeforamerica.org/api/organizations/Code for San Francisco/issues/labels/enhancement,hack?page=2&per_page=2"},"total":14} ''')
 
+    elif url.geturl() == 'http://codeforamerica.org/api/issues/labels/failure?per_page=100':
+      return response(500, ''' This did not go very well ''')
+
   def test_get_organization_names(self):
     with HTTMock(self.response_content):
       response = self.client.get('/')
@@ -57,7 +60,7 @@ class AppTestCase(TestCase):
     self.assertEquals(self.get_context_variable('org_name'), "Code for San Francisco")
     self.assertEquals(self.get_context_variable('default_labels'), "hack,help")
 
-  def test_succesful_issues_context_variables(self):
+  def test_succesful_issues_without_params(self):
     with HTTMock(self.response_content):
       # Test with one label and no extra params
       labels = 'enhancement'
@@ -66,19 +69,56 @@ class AppTestCase(TestCase):
       self.assert_200(response)
       
       issues = self.get_context_variable('issues')
-      # Verify we get the correct labels back
-      self.assertEquals(2, len(issues))
-      self.assertEquals(issues[0]['title'], 'add help facility')
-      self.assertEquals(issues[1]['title'], 'help for non-service residents')
 
-      # Verify we are correctly appending the text_color property to labels based on their color
       self.assertEquals(issues[1]['labels'][0]['text_color'], 'FFFFFF')
       self.assertEquals(issues[1]['labels'][1]['text_color'], '000000')
 
-      # Verify other context variables remain the same
       self.assertEquals(self.get_context_variable('labels'), 'enhancement')
       self.assertEquals(self.get_context_variable('org_name'), 'None')
       self.assertEquals(self.get_context_variable('default_labels'), 'None')
+
+      # Test with a couple of labels and no extra params
+      labels = "enhancement,hack"
+
+      reponse = self.client.post('/find', data=dict(labels=labels))
+      self.assert_200(response)
+
+      labels = self.get_context_variable('labels')
+      
+      self.assertEquals(labels, 'enhancement,hack')
+      self.assertEquals(self.get_context_variable('org_name'), 'None')
+      self.assertEquals(self.get_context_variable('default_labels'), 'None')
+
+  def test_succesful_issues_with_params(self):
+    with HTTMock(self.response_content):
+      # Test with one label and default_labels parameter
+      labels = 'enhancement'
+
+      response = self.client.post('/find', data=dict(labels=labels, default_labels='hack'))
+      self.assert_200(response)
+      self.assertEquals(self.get_context_variable('org_name'), 'None')
+      self.assertEquals(self.get_context_variable('default_labels'), 'hack')
+
+      # Test one label with organization_name parameter and default_labels
+      response = self.client.post('/find', data=dict(labels=labels, default_labels='hack', org_name="Code for San Francisco"))
+      self.assert_200(response)
+      self.assertEquals(self.get_context_variable('org_name'), 'Code for San Francisco')
+      self.assertEquals(self.get_context_variable('default_labels'), 'hack')
+
+      # Test one label with organization_name parameter
+      labels = 'enhancement,hack'
+      response = self.client.post('/find', data=dict(labels=labels, org_name="Code for San Francisco"))
+      self.assert_200(response)
+      self.assertEquals(self.get_context_variable('org_name'), 'Code for San Francisco')
+      self.assertEquals(self.get_context_variable('default_labels'), 'None')
+
+  def test_unsuccesful_issues(self):
+    with HTTMock(self.response_content):
+      labels = 'failure'
+      # Test failure without organization_name
+      response = self.client.post('/find', data=dict(labels=labels))
+      self.assert_200(response)
+      self.assertEquals(self.get_context_variable('error'), True)
     
 
 if __name__ == '__main__':
