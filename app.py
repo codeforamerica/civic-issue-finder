@@ -2,7 +2,7 @@
 # Imports
 # -------------------
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import json
 from requests import get
 from requests.exceptions import ConnectionError
@@ -12,6 +12,7 @@ from requests.exceptions import ConnectionError
 # -------------------
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '\xbd[;\xfeZs$\x94\x13J\x8fq\xe8\xbd\x9e\xc0\xe1\xa9"\xbe-\xb0\x80\xaa'
 
 # -------------------
 # Routes
@@ -19,17 +20,22 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-  names = []
-  # Get all of the organizations from the api
-  organizations = get('http://codeforamerica.org/api/organizations?per_page=200')
-  organizations = json.loads(organizations.content)
 
-  # Filter out just the organization names
-  for org in organizations['objects']:
-    names.append(org['name'])
+  if not session.get('organizations', None):
+    names = []
+    # Get all of the organizations from the api
+    organizations = get('http://codeforamerica.org/api/organizations?per_page=200')
+    organizations = json.loads(organizations.content)
+
+    # Filter out just the organization names
+    for org in organizations['objects']:
+      names.append(org['name'])
+
+    session['organizations'] = names
+    session.modified = True
 
   # Render index and pass in all of the organization names
-  return render_template('index.html', organization_names=names)
+  return render_template('index.html', organization_names=session['organizations'])
 
 @app.route('/widget')
 def widget():
