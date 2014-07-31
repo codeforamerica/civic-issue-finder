@@ -33,6 +33,9 @@ def index():
 
 @app.route('/widget')
 def widget():
+  '''
+  Render the basic empty widget
+  '''
   org_name = request.args.get('organization_name')
   default_labels = request.args.get('default_labels')
   return render_template('widget.html', org_name=org_name, default_labels=default_labels, main=True)
@@ -40,11 +43,11 @@ def widget():
 @app.route('/find', methods=['POST'])
 def find():
   '''
-  Finds issues based on the given label
+  Finds issues based on the given label. Render them in the widget
   '''
   # Get optional parameters
-  org_name = request.form.get('org_name', None)
-  default_labels = request.form.get('default_labels', None)
+  org_name = request.form.get('org_name', "None")
+  default_labels = request.form.get('default_labels', "None")
 
   # Get labels from form
   labels = request.form['labels']
@@ -55,6 +58,7 @@ def find():
     default_labels.replace(' ', '')
     labels += ',' + default_labels
 
+  # Get the actual issues from the API
   try:
     # If we have an organization name only query that organization
     if org_name != 'None':
@@ -69,7 +73,7 @@ def find():
     return render_template('index.html', org_name=org_name, default_labels=default_labels, error=True)
 
   # Parse the API response
-  issues = json.loads(issues.content)
+  issues = json.loads(issues.content)  
 
   # Add text_color for each issue
   for iss in issues['objects']:
