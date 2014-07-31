@@ -10,6 +10,8 @@ function update_snippet () {
     };
   } else if (labels !== '') {
     embed_string = '&lt;iframe src="http://civicissues.herokuapp.com/widget?default_labels='+ labels.trim() +'" width="300" height="600"&gt; &lt;/iframe&gt;';
+  } else {
+    embed_string = '&lt;iframe src="http://civicissues.herokuapp.com/widget" width="300" height="600"&gt; &lt;/iframe&gt;';
   };
   code.innerHTML = embed_string;
 }
