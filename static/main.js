@@ -21,5 +21,3 @@ var org = document.getElementById('organization');
 
 org.addEventListener('change', update_snippet);
 labels.addEventListener('keyup', update_snippet);
-
-console.log('holaa');
