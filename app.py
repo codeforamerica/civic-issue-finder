@@ -76,7 +76,7 @@ def find():
       issues = get('http://codeforamerica.org/api/organizations/%s/issues/labels/%s?per_page=100' % (org_name, labels))
     # Otherwise get issues across all organizations
     else:
-      issues = get('http://codeforamerica.org/api/issues/labels/'+labels+'?per_page=100')
+      issues = get('http://codeforamerica.org/api/issues/labels/%s?per_page=100' % labels)
   except ConnectionError, e:
     return render_template('index.html', org_name=org_name, default_labels=default_labels, error=True)
 

@@ -40,42 +40,62 @@ class AppTestCase(TestCase):
       self.assertEquals(self.get_context_variable('organization_names'), ['Code for South Africa', 'Open Nebraska'])
 
   def test_empty_widget(self):
+    '''
+    Test that the initial loading of the widget works as expected.
+    Primarily that the optional query parameters that people can use
+    are passed around correctly (org_name and default_labels).
+    '''
+
+    # Test the empty widget with no org_name or default_labels
     response = self.client.get('/widget')
     self.assert_200(response)
     self.assertEquals(self.get_context_variable('org_name'), None)
     self.assertEquals(self.get_context_variable('default_labels'), None)
 
+    # Test the empty widget with org_name and no default_labels
     response = self.client.get('/widget?organization_name=Code+for+San+Francisco')
     self.assert_200(response)
     self.assertEquals(self.get_context_variable('org_name'), "Code for San Francisco")
     self.assertEquals(self.get_context_variable('default_labels'), None)
 
+    # Test the empty widget with default_labels and no org_name
     response = self.client.get('/widget?default_labels=hack,help')
     self.assert_200(response)
     self.assertEquals(self.get_context_variable('org_name'), None)
     self.assertEquals(self.get_context_variable('default_labels'), "hack,help")
 
+    # Test the empty widget with default_labels and org_name
     response = self.client.get('/widget?default_labels=hack,help&organization_name=Code+for+San+Francisco')
     self.assert_200(response)
     self.assertEquals(self.get_context_variable('org_name'), "Code for San Francisco")
     self.assertEquals(self.get_context_variable('default_labels'), "hack,help")
 
   def test_succesful_issues_without_params(self):
+    '''
+    Test that we can get issues with no optional query parameters
+    (org_name or default_labels) and they are formatted and passed
+    back to the template correctly.
+    '''
     with HTTMock(self.response_content):
-      # Test with one label and no extra params
+      # Test with one label and no extra parameters
+
       labels = 'enhancement'
 
       response = self.client.post('/find', data=dict(labels=labels))
       self.assert_200(response)
       
+      # Get the issues context variable      
       issues = self.get_context_variable('issues')
 
+      # Make sure that we are appending the correct text_color to each issue
       self.assertEquals(issues[1]['labels'][0]['text_color'], 'FFFFFF')
       self.assertEquals(issues[1]['labels'][1]['text_color'], '000000')
 
+      # Make sure the context variables are correctly passed around
       self.assertEquals(self.get_context_variable('labels'), 'enhancement')
       self.assertEquals(self.get_context_variable('org_name'), 'None')
       self.assertEquals(self.get_context_variable('default_labels'), 'None')
+
 
       # Test with a couple of labels and no extra params
       labels = "enhancement,hack"
@@ -83,39 +103,63 @@ class AppTestCase(TestCase):
       reponse = self.client.post('/find', data=dict(labels=labels))
       self.assert_200(response)
 
+      # Get the labels from the context variable
       labels = self.get_context_variable('labels')
       
+      # Make sure the context variables are correctly passed around
       self.assertEquals(labels, 'enhancement,hack')
       self.assertEquals(self.get_context_variable('org_name'), 'None')
       self.assertEquals(self.get_context_variable('default_labels'), 'None')
 
   def test_succesful_issues_with_params(self):
+    '''
+    Test that we can get issues with optional query parameters
+    (org_name or default_labels) and they are formatted and passed
+    back to the template correctly.
+    Here we're mostly interested in testing that the context variables are
+    passed around correctly
+    '''
     with HTTMock(self.response_content):
       # Test with one label and default_labels parameter
       labels = 'enhancement'
 
+      # Make the /find POST request and pass in a default_label
       response = self.client.post('/find', data=dict(labels=labels, default_labels='hack'))
       self.assert_200(response)
+
+      # Make sure the context variables are passed correctly
       self.assertEquals(self.get_context_variable('org_name'), 'None')
       self.assertEquals(self.get_context_variable('default_labels'), 'hack')
 
       # Test one label with organization_name parameter and default_labels
+
+      # Make the /find POST request and pass both default_labels and org_name
       response = self.client.post('/find', data=dict(labels=labels, default_labels='hack', org_name="Code for San Francisco"))
       self.assert_200(response)
+
+      # Make sure the context variables are passed correctly
       self.assertEquals(self.get_context_variable('org_name'), 'Code for San Francisco')
       self.assertEquals(self.get_context_variable('default_labels'), 'hack')
 
       # Test one label with organization_name parameter
       labels = 'enhancement,hack'
+
+      # Make the /find POST request and pass in an org_name
       response = self.client.post('/find', data=dict(labels=labels, org_name="Code for San Francisco"))
       self.assert_200(response)
+
+      # Make sure the context variables are passed correctly
       self.assertEquals(self.get_context_variable('org_name'), 'Code for San Francisco')
       self.assertEquals(self.get_context_variable('default_labels'), 'None')
 
   def test_unsuccesful_issues(self):
+    '''
+    Test what happens when we are unsuccesful to get issues from
+    the CFAPI.
+    '''
     with HTTMock(self.response_content):
+      # Test failure when the API doesn't return a 200
       labels = 'failure'
-      # Test failure without organization_name
       response = self.client.post('/find', data=dict(labels=labels))
       self.assert_200(response)
       self.assertEquals(self.get_context_variable('error'), True)
