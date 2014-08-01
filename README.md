@@ -14,5 +14,5 @@ This widget can be [accessed directly](http://civicissues.herokuapp.com), or it 
 
 The url in the `src` attribute of the iframe can be given the following query params to cutomize your widget
 
-- `organization_name`: Only looks for issues of projects in the given organization. The organization has to be inside the CFAPI. Here's a [list of organizations](http://codeforamerica.org/api/organizations)
-- `default_labels`: Labels that should always be included in the search query.
+- `organization_name`: Only looks for issues of projects in the given organization. The organization has to be inside the CFAPI. Here's a [list of organizations](http://codeforamerica.org/api/organizations) Example: `<iframe src="http://civicissues.herokuapp.com?organization_name=Code+for+San+Francisco" width='300' height='400'></iframe>`
+- `default_labels`: Labels that should always be included in the search query. Example: `<iframe src="http://civicissues.herokuapp.com?default_labels=beginner" width='300' height='400'></iframe>`
