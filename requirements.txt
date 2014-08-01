@@ -1,6 +1,7 @@
 Flask==0.10.1
 Flask-Testing==0.4.2
 Jinja2==2.7.3
+Markdown==2.4.1
 MarkupSafe==0.23
 Werkzeug==0.9.6
 blinker==1.3

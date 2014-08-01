@@ -2,8 +2,8 @@
 # Imports
 # -------------------
 
-from flask import Flask, render_template, request, session
-import json
+from flask import Flask, render_template, request, session, Markup
+import json, markdown
 from requests import get
 from requests.exceptions import ConnectionError
 
@@ -86,8 +86,11 @@ def find():
   # Parse the API response
   issues = json.loads(issues.content)  
 
-  # Add text_color for each issue
+  # Format each issue
   for iss in issues['objects']:
+    # Parse the issue body from markdown to html
+    iss['body'] = Markup(markdown.markdown(iss['body']))
+    # Add text_color to labels to make them more readable
     for l in iss['labels']:
       if l['color'] < '888888':
         l['text_color'] = 'FFFFFF'
