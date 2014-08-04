@@ -2,7 +2,7 @@
 # Imports
 # -------------------
 
-from flask import Flask, render_template, request, session, Markup
+from flask import Flask, render_template, request, session, Markup, redirect, url_for
 import json, markdown
 from requests import get
 from requests.exceptions import ConnectionError
@@ -45,26 +45,25 @@ def widget():
   '''
   Render the basic empty widget
   '''
-  org_name = request.args.get('organization_name')
+  session['org_name'] = request.args.get('organization_name')
   default_labels = request.args.get('default_labels')
-  return render_template('widget.html', org_name=org_name, default_labels=default_labels, main=True)
+  return redirect(url_for('find', labels=default_labels))
 
-@app.route('/find', methods=['POST'])
+@app.route('/find', methods=['GET', 'POST'])
 def find():
   '''
   Finds issues based on the given label. Render them in the widget
   '''
+  if request.method == 'GET':
+    labels = request.args.get('labels', None)
+    if labels == None:
+      return render_template('widget.html')
+  elif request.method == 'POST':
+    # Get labels from form
+    labels = request.form['labels']
+
   # Get optional parameters
-  org_name = request.form.get('org_name', "None")
-  default_labels = request.form.get('default_labels', "None")
-
-  # Get labels from form
-  labels = request.form['labels']
-
-  # Include optional labels
-  if default_labels != 'None':
-    default_labels.replace(' ', '')
-    labels += ',' + default_labels
+  org_name = session.get('org_name', None)
 
   # Remove possible whitespace (ex: "enhancement, hack")
   labels.replace(' ', '')
@@ -72,16 +71,16 @@ def find():
   # Get the actual issues from the API
   try:
     # If we have an organization name only query that organization
-    if org_name != 'None':
+    if org_name != None:
       issues = get('http://codeforamerica.org/api/organizations/%s/issues/labels/%s?per_page=100' % (org_name, labels))
     # Otherwise get issues across all organizations
     else:
       issues = get('http://codeforamerica.org/api/issues/labels/%s?per_page=100' % labels)
   except ConnectionError, e:
-    return render_template('index.html', org_name=org_name, default_labels=default_labels, error=True)
+    return render_template('widget.html', error=True)
 
   if issues.status_code != 200:
-    return render_template('index.html', org_name=org_name, default_labels=default_labels, error=True)
+    return render_template('widget.html', error=True)
 
   # Parse the API response
   issues = json.loads(issues.content)  
@@ -97,7 +96,7 @@ def find():
       else:
         l['text_color'] = '000000'
 
-  return render_template('widget.html', issues=issues['objects'], labels=request.form['labels'], org_name=org_name, default_labels=default_labels)
+  return render_template('widget.html', issues=issues['objects'], labels=labels)
 
 if __name__ == "__main__":
     app.run(debug=True)
