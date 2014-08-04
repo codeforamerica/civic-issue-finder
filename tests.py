@@ -8,6 +8,7 @@ from urlparse import urlparse
 from httmock import response, HTTMock, all_requests
 from flask.ext.testing import TestCase
 from app import app
+import flask
 
 class AppTestCase(TestCase):
 
@@ -47,28 +48,16 @@ class AppTestCase(TestCase):
     '''
 
     # Test the empty widget with no org_name or default_labels
-    response = self.client.get('/widget')
+    response = self.client.get('/widget', follow_redirects=True)
     self.assert_200(response)
-    self.assertEquals(self.get_context_variable('org_name'), None)
-    self.assertEquals(self.get_context_variable('default_labels'), None)
-
-    # Test the empty widget with org_name and no default_labels
-    response = self.client.get('/widget?organization_name=Code+for+San+Francisco')
-    self.assert_200(response)
-    self.assertEquals(self.get_context_variable('org_name'), "Code for San Francisco")
-    self.assertEquals(self.get_context_variable('default_labels'), None)
 
     # Test the empty widget with default_labels and no org_name
-    response = self.client.get('/widget?default_labels=hack,help')
+    response = self.client.get('/widget?default_labels=hack,help', follow_redirects=True)
     self.assert_200(response)
-    self.assertEquals(self.get_context_variable('org_name'), None)
-    self.assertEquals(self.get_context_variable('default_labels'), "hack,help")
 
     # Test the empty widget with default_labels and org_name
-    response = self.client.get('/widget?default_labels=hack,help&organization_name=Code+for+San+Francisco')
+    response = self.client.get('/widget?default_labels=hack,help&organization_name=Code+for+San+Francisco', follow_redirects=True)
     self.assert_200(response)
-    self.assertEquals(self.get_context_variable('org_name'), "Code for San Francisco")
-    self.assertEquals(self.get_context_variable('default_labels'), "hack,help")
 
   def test_succesful_issues_without_params(self):
     '''
@@ -93,8 +82,6 @@ class AppTestCase(TestCase):
 
       # Make sure the context variables are correctly passed around
       self.assertEquals(self.get_context_variable('labels'), 'enhancement')
-      self.assertEquals(self.get_context_variable('org_name'), 'None')
-      self.assertEquals(self.get_context_variable('default_labels'), 'None')
 
 
       # Test with a couple of labels and no extra params
@@ -108,8 +95,6 @@ class AppTestCase(TestCase):
       
       # Make sure the context variables are correctly passed around
       self.assertEquals(labels, 'enhancement,hack')
-      self.assertEquals(self.get_context_variable('org_name'), 'None')
-      self.assertEquals(self.get_context_variable('default_labels'), 'None')
 
   def test_succesful_issues_with_params(self):
     '''
@@ -127,19 +112,11 @@ class AppTestCase(TestCase):
       response = self.client.post('/find', data=dict(labels=labels, default_labels='hack'))
       self.assert_200(response)
 
-      # Make sure the context variables are passed correctly
-      self.assertEquals(self.get_context_variable('org_name'), 'None')
-      self.assertEquals(self.get_context_variable('default_labels'), 'hack')
-
       # Test one label with organization_name parameter and default_labels
 
       # Make the /find POST request and pass both default_labels and org_name
       response = self.client.post('/find', data=dict(labels=labels, default_labels='hack', org_name="Code for San Francisco"))
       self.assert_200(response)
-
-      # Make sure the context variables are passed correctly
-      self.assertEquals(self.get_context_variable('org_name'), 'Code for San Francisco')
-      self.assertEquals(self.get_context_variable('default_labels'), 'hack')
 
       # Test one label with organization_name parameter
       labels = 'enhancement,hack'
@@ -147,10 +124,6 @@ class AppTestCase(TestCase):
       # Make the /find POST request and pass in an org_name
       response = self.client.post('/find', data=dict(labels=labels, org_name="Code for San Francisco"))
       self.assert_200(response)
-
-      # Make sure the context variables are passed correctly
-      self.assertEquals(self.get_context_variable('org_name'), 'Code for San Francisco')
-      self.assertEquals(self.get_context_variable('default_labels'), 'None')
 
   def test_unsuccesful_issues(self):
     '''
