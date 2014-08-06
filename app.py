@@ -56,8 +56,6 @@ def find():
   '''
   if request.method == 'GET':
     labels = request.args.get('labels', None)
-    if labels == None:
-      return render_template('widget.html')
   elif request.method == 'POST':
     # Get labels from form
     labels = request.form['labels']
@@ -65,17 +63,20 @@ def find():
   # Get optional parameters
   org_name = session.get('org_name', None)
 
-  # Remove possible whitespace (ex: "enhancement, hack")
-  labels.replace(' ', '')
-
   # Get the actual issues from the API
   try:
     # If we have an organization name only query that organization
     if org_name != None:
-      issues = get('http://codeforamerica.org/api/organizations/%s/issues/labels/%s?per_page=100' % (org_name, labels))
+      if labels != None:
+        issues = get('http://codeforamerica.org/api/organizations/%s/issues/labels/%s?per_page=100' % (org_name, labels))
+      else:
+        issues = get('http://codeforamerica.org/api/organizations/%s/issues?per_page=100' % org_name)
     # Otherwise get issues across all organizations
     else:
-      issues = get('http://codeforamerica.org/api/issues/labels/%s?per_page=100' % labels)
+      if labels != None:
+        issues = get('http://codeforamerica.org/api/issues/labels/%s?per_page=100' % labels)
+      else:
+        issues = get('http://codeforamerica.org/api/issues?per_page=100')
   except ConnectionError, e:
     return render_template('widget.html', error=True)
 
@@ -88,7 +89,8 @@ def find():
   # Format each issue
   for iss in issues['objects']:
     # Parse the issue body from markdown to html
-    iss['body'] = Markup(markdown.markdown(iss['body']))
+    if iss['body']:
+      iss['body'] = Markup(markdown.markdown(iss['body']))
     # Add text_color to labels to make them more readable
     for l in iss['labels']:
       if l['color'] < '888888':
