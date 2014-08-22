@@ -6,18 +6,18 @@ function update_snippet () {
 
   if (org !== '') {
     if (labels !== '') {
-      embed_string = '&lt;iframe src="http://civicissues.herokuapp.com/widget?organization_name='+ encodeURIComponent(org) +'&labels='+ labels.trim() +'" width="100%" height="600" frameBorder="0"&gt; &lt;/iframe&gt;';
-      widget.src = 'http://civicissues.herokuapp.com/widget?organization_name='+ encodeURIComponent(org) +'&labels='+ labels.trim();
+      embed_string = '&lt;iframe src="http://codeforamerica.org/geeks/civicissues/widget?organization_name='+ encodeURIComponent(org) +'&labels='+ labels.trim() +'" width="100%" height="600" frameBorder="0"&gt; &lt;/iframe&gt;';
+      widget.src = 'http://codeforamerica.org/geeks/civicissues/widget?organization_name='+ encodeURIComponent(org) +'&labels='+ labels.trim();
     } else{
-      embed_string = '&lt;iframe src="http://civicissues.herokuapp.com/widget?organization_name='+ encodeURIComponent(org) +'" width="100%" height="600" frameBorder="0"&gt; &lt;/iframe&gt;';
-      widget.src = 'http://civicissues.herokuapp.com/widget?organization_name='+ encodeURIComponent(org);
+      embed_string = '&lt;iframe src="http://codeforamerica.org/geeks/civicissues/widget?organization_name='+ encodeURIComponent(org) +'" width="100%" height="600" frameBorder="0"&gt; &lt;/iframe&gt;';
+      widget.src = 'http://codeforamerica.org/geeks/civicissues/widget?organization_name='+ encodeURIComponent(org);
     };
   } else if (labels !== '') {
-    embed_string = '&lt;iframe src="http://civicissues.herokuapp.com/widget?labels='+ labels.trim() +'" width="100%" height="600" frameBorder="0"&gt; &lt;/iframe&gt;';
-    widget.src = 'http://civicissues.herokuapp.com/widget?labels='+ labels.trim();
+    embed_string = '&lt;iframe src="http://codeforamerica.org/geeks/civicissues/widget?labels='+ labels.trim() +'" width="100%" height="600" frameBorder="0"&gt; &lt;/iframe&gt;';
+    widget.src = 'http://codeforamerica.org/geeks/civicissues/widget?labels='+ labels.trim();
   } else {
-    embed_string = '&lt;iframe src="http://civicissues.herokuapp.com/widget" width="100%" height="600" frameBorder="0"&gt; &lt;/iframe&gt;';
-    widget.src = 'http://civicissues.herokuapp.com/widget';
+    embed_string = '&lt;iframe src="http://codeforamerica.org/geeks/civicissues/widget" width="100%" height="600" frameBorder="0"&gt; &lt;/iframe&gt;';
+    widget.src = 'http://codeforamerica.org/geeks/civicissues/widget';
   };
   code.innerHTML = embed_string;
 
