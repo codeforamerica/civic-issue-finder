@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
@@ -72,14 +74,34 @@
             <div class="badge-heading badge-github badge-blue">
                 <h1>The Civic Tech Issue Finder</h1>
                 <h2>Code for America Right Now!</h2>
-                <p>These are open GitHub Issues labeled with
-                <span class="label" style="background-color:#159818;">help wanted</span>
-                from across the civic technology movement.
-                <a href="/embed">Embed them</a> in your own site!.</p>
             </div>
-            <iframe src="/widget?labels=help wanted" width="100%" height="1000" frameBorder="0"> </iframe>
-          </div>
-        </section>
+            <div class="spotlight">
+              <ul class="list-form">
+                <li class="form-field-group">
+                  <div class="form-field">
+                    <label>Choose your Brigade</label>
+                  	<select name="organizations" id="organization">
+                      <option value="">---</option>
+                      {% for name in organization_names %}
+                        <option value="{{ name }}">{{ name }}</option>
+                      {% endfor %}
+                    </select>
+                    <small class="note">Leave blank to search across the whole network.</small>
+                  </div>
+                  <div class="form-field">
+                    <label>Choose a list of labels to search for</label>
+                    <input id="labels" type="text" name="labels" placeholder='help wanted, bug, python'>
+                    <small class="note">We recommend "help wanted"</small>
+                  </div>
+                </li>
+                <li class="form-field">
+                  <label>Embed the following code into your website.</label>
+                  <textarea id="embed" rows='1'>&lt;iframe src="http://civicissues.herokuapp.com/widget" width="100%" height="600px" frameBorder="0" &gt; &lt;&#47;iframe&gt;</textarea>
+                </li>
+              </ul>
+            </div>
+            <iframe id="widget" src="/widget" width="100%" height="600px" frameBorder="0"></iframe>
+        <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
 
 
         <div class="global-footer" id="global-footer">

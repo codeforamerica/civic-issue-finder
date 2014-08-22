@@ -1,31 +1,14 @@
 body {
-  font-family: Helvetica;
+  background-color: white;
 }
 
-label {
-  font-size: 1.2em;
-}
-
-ol {
-  font-size: 1.2em;
-}
-
-.issue {
-  border: 1px solid black;
-  margin-bottom: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-.issue p,h4 {
-  overflow: hidden;
-}
-
-.issue-labels {
-  margin-bottom: 10px;
-  font-size: 1.2em;
-}
-
-.label-link:hover {
-  text-decoration: none;
+.label {
+  border: 1px solid #000;
+  display: inline-block;
+  color: #fff;
+  text-align: center;
+  border-radius: .33em;
+  margin: 5px;
+  padding: 0 10px;
+  font-family: Interstate, 'Gotham A', 'Gotham B', 'Open Sans Regular', Verdana, Helvetica, Arial;
 }

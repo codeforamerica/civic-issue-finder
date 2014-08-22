@@ -1,108 +1,59 @@
-<html>
-<head>
-  <title>Civic Issue Finder</title>
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-</head>
-<body>
-  <div class='container-fluid'>
-    <div class='row'>
-      <div class='col-sm-4 col-sm-offset-4'>
-        <h4>Civic Issue Finder <a href="/" target="_blank"> <span class="octicon octicon-question"></span> </a> </h4>
-        <form class="form" role="search" action='/find' method='POST'>
-          <label for='labels'>Enter a comma-separated list of labels</label>
-          <div class="input-group">
-            {% if labels %}
-              <input type="text" class="form-control" name="labels" placeholder='feature,python,css' value="{{ labels }}">
-            {% else %}
-              <input type="text" class="form-control" name="labels" placeholder='feature,python,css'>
-            {% endif %}
-              <div class="input-group-btn">
-                  <input type='submit' value='Submit' class='btn btn-default'>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Civic Tech Issue Finder</title>
+    <link rel="stylesheet" type="text/css" href="//cloud.webtype.com/css/944a7551-9b08-4f0a-8767-e0f83db4a16b.css" />
+    <link rel="stylesheet" href="http://style.codeforamerica.org/1/style/css/main.css">
+    <link rel="stylesheet" href="http://style.codeforamerica.org/1/style/css/layout.css" media="all and (min-width: 40em)">
+    <link href="http://style.codeforamerica.org/1/style/css/prism.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+    <link rel="shortcut icon" type="image/x-icon" href="http://style.codeforamerica.org/1/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" href="http://style.codeforamerica.org/1/style/favicons/60x60/flag-red.png"/>
+
+    <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!--[if (lt IE 9)&(gt IE 6)&(!IEMobile)]>
+        <link rel="stylesheet" href="http://style.codeforamerica.org/1/style/css/layout.css" media="all">
+    <![endif]-->
+
+  </head>
+
+  <body>
+    <section>
+      <div class="layout-breve">
+        <ul class="list-no-bullets layout-grid">
+          {% if error %}
+            <div class='row'>
+              <div class='col-sm-4 com-sm-offset-4'>
+                <h3>CFAPI is down. Please try again later.</h3>
               </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    {% if error %}
-      <div class='row'>
-        <div class='col-sm-4 com-sm-offset-4'>
-          <h3>CFAPI is down. Please try again later.</h3>
-        </div>
-      </div>
-    {% else %}
-      {% if main %}
-        <h4>Example response:</h4>
-        <div class='row'>
-          <div class="col-sm-4 col-sm-offset-4 issue">
-            <h4 class='project-name'>
-              <span class="octicon octicon-repo"></span>
-              <a href="https://github.com/open-austin/austin-recycles">
-                Project Name
-              </a>
-            </h4>
-            <p class='project-description'>Project Description</p>
-            <h4 class='issue-name'>
-              <span class="octicon octicon-issue-opened"></span>
-              <a href="https://github.com/open-austin/austin-recycles/issues/24">Issue body</a>
-            </h4>
-            <p class='issue-body'>Issue body</p>
-            <div class="issue-labels">
-                <div class="label" style="background-color: #fc2929">
-                  <a href="https://api.github.com/repos/open-austin/austin-recycles/labels/bug" class="label-link" style="color: #FFFFFF">
-                    label 1
-                  </a>
-                </div>
-                &nbsp;
-                <div class="label" style="background-color: #fef2c0">
-                  <a href="https://api.github.com/repos/open-austin/austin-recycles/labels/hack" class="label-link" style="color: #000000">
-                    label 2
-                  </a>
-                </div>
-                &nbsp;
-                  <br>
             </div>
-          </div>
-        </div>
-      {% endif %}
-      {% if issues != [] %}
-        <div class='row'>
+          {% elif issues %}
           {% for issue in issues %}
-            <div class='col-sm-4 col-sm-offset-4 issue'>
-              <h4 class='project-name'>
-                <span class="octicon octicon-repo"></span>
-                <a href="{{ issue.project.code_url }}">
-                  {{ issue.project.name }}
-                </a>
-              </h4>
-              <p class='project-description'>{{ issue.project.description }}</p>
-              <h4 class='issue-name'>
-                <span class="octicon octicon-issue-opened"></span>
-                <a href="{{ issue.html_url }}">{{ issue.title }}</a>
-              </h4>
-              <p class='issue-body'>{{ issue.body }}</p>
-              <div class='issue-labels'>
-                {% for label in issue.labels %}
-                  <div class='label' style='background-color: #{{ label.color }}'>
-                    <a href="{{ label.url }}" class='label-link' style="color: #{{ label.text_color }}">
-                      {{ label.name }}
-                    </a>
+          <li class="layout-crotchet">
+              <a href="{{ issue.html_url }}" class="billboard" target="_parent">
+                  <p class="text-whisper">{{ issue.project.name }}</p>
+                  <h3 class="billboard-label">{{ issue.title }}</h3>
+                  <div class="labels">
+                  {% for label in issue.labels %}
+                  <div class="label" style="background-color:#{{label.color}}">{{label.name}}</div>
+                  {% endfor %}
                   </div>
-                  &nbsp;
-                {% endfor %}
-              </div>
-            </div>
+              </a>
+          </li>
           {% endfor %}
-        </div>
-      {% else %}
-        <div class='row'>
-          <div class='col-sm-4 com-sm-offset-4'>
-            <h3>No Issues for label.</h3>
-          </div>
-        </div>
-      {% endif %}
-    {% endif %}
-  </div>
-</body>
+          {% else %}
+          <h3>No Issues for label.</h3>
+          {% endif %}
+        </ul>
+      </div>
+    </section>
+  </body>
 </html>
