@@ -89,4 +89,4 @@ def widget():
     return render_template('widget.html', issues=issues, labels=labels)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
