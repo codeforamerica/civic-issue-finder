@@ -19,7 +19,7 @@ app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissu
 
 @app.route('/geeks/civicissues')
 def index():
-  return render_template('index.html')
+    return render_template('index.html')
 
 
 @app.route('/geeks/civicissues/embed')
