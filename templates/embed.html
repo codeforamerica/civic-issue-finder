@@ -81,8 +81,7 @@
             </div>
             <div class="spotlight">
               <ul class="list-form">
-                <li class="form-field-group">
-                  <div class="form-field">
+                <li class="form-field">
                     <label>Choose your Brigade</label>
                   	<select name="organizations" id="organization">
                       <option value="">---</option>
@@ -91,12 +90,17 @@
                       {% endfor %}
                     </select>
                     <small class="note">Leave blank to search across the whole network.</small>
-                  </div>
-                  <div class="form-field">
-                    <label>Choose a list of labels to search for</label>
-                    <input id="labels" type="text" name="labels" placeholder='help wanted, bug, python'>
-                    <small class="note">We recommend "help wanted"</small>
-                  </div>
+                  </li>
+                  <li class="form-field-group">
+                    <div class="form-field">
+                      <label>Choose a list of labels to search for</label>
+                      <input id="labels" type="text" name="labels" plaeholder='help wanted, bug, python'>
+                      <small class="note">We recommend "help wanted"</small>
+                    </div>
+                    <div class="form-field">
+                      <label>How many issues to return</label>
+                      <input id="number" type="number" max="30" value="10">
+                    </div>
                 </li>
                 <li class="form-field">
                   <label>Embed the following code into your website.</label>
