@@ -11,7 +11,7 @@ from requests.exceptions import ConnectionError
 # Init
 # -------------------
 
-app = Flask(__name__)
+app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissues/static')
 
 # -------------------
 # Routes
