@@ -24,8 +24,18 @@ function update_snippet () {
 
 }
 
-var labels = document.getElementById('labels');
-var org = document.getElementById('organization');
+window.onload = function() {
 
-org.addEventListener('change', update_snippet);
-labels.addEventListener('keyup', update_snippet);
+  var labels = document.getElementById('labels');
+  var organization = document.getElementById('organization');
+
+  organization.addEventListener('change', update_snippet);
+  labels.addEventListener('keyup', update_snippet);
+
+}
+
+// Resize iframe to fit content
+function resize() {
+  var newheight = document.getElementById("widget").contentWindow.document.body.scrollHeight;
+  document.getElementById("widget").height = newheight + "px";
+}
