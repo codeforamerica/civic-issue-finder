@@ -38,8 +38,9 @@ window.onload = function() {
   var labels = document.getElementById('labels');
   var organization = document.getElementById('organization');
 
-  organization.addEventListener('change', update_snippet);
-  labels.addEventListener('keyup', update_snippet);
+  organization.addEventListener('change', updateSnippet);
+  labels.addEventListener('change', updateSnippet);
+  number.addEventListener('change', updateSnippet);
 
 }
 
