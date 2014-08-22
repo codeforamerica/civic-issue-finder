@@ -17,12 +17,12 @@ app = Flask(__name__)
 # Routes
 # -------------------
 
-@app.route('/')
+@app.route('/geeks/civicissues')
 def index():
   return render_template('index.html')
 
 
-@app.route('/embed')
+@app.route('/geeks/civicissues/embed')
 def embed():
     '''
     Show an editable embed form
@@ -44,7 +44,7 @@ def embed():
     return render_template('embed.html', organization_names=names)
 
 
-@app.route('/widget')
+@app.route('/geeks/civicissues/widget')
 def widget():
   '''
   Finds issues based on the given label. Render them in the widget
