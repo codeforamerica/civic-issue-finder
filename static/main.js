@@ -1,6 +1,7 @@
 function updateSnippet () {
   var labels = document.getElementById('labels').value;
   var org = document.getElementById('organization').value;
+  org = org.replace(/ /g, '-');
   var code = document.getElementById('embed');
   var widget = document.getElementById('widget');
   var number = document.getElementById('number');
@@ -10,7 +11,7 @@ function updateSnippet () {
     embedString += '?'
   }
   if (org) {
-    embedString += 'organization_name=' + encodeURIComponent(org);
+    embedString += 'organization_name=' + org;
     if (labels || number){
       embedString += '&';
     }
@@ -29,7 +30,7 @@ function updateSnippet () {
   widget.src = embedString;
 
   // Finish the embedString for the form
-  embedString = '&lt;iframe src="' + embedString + '" width="100%" height="600" frameBorder="0"&gt; &lt;/iframe&gt;';
+  embedString = '<iframe src="' + embedString + '" width="100%" height="600" frameBorder="0"></iframe>';
   code.innerHTML = embedString;
 }
 
