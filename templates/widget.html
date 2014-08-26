@@ -38,7 +38,7 @@
           {% elif issues %}
           {% for issue in issues %}
           <li class="layout-crotchet">
-              <a href="{{ issue.html_url }}" class="billboard" target="_parent">
+              <a href="{{ issue.html_url }}" class="billboard" target="_parent" onClick="_gaq.push(['_trackEvent', 'Civic Issues', 'Issue Link', '{{ issue.api_url }}' ]);">
                   <p class="text-whisper">{{ issue.project.name }}</p>
                   <h3 class="billboard-label">{{ issue.title }}</h3>
                   <div class="labels">
