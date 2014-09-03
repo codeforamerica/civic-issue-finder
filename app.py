@@ -77,15 +77,6 @@ def widget():
     issues_json = issues_response.json()
     issues = issues_json['objects']
 
-    # Format each issue
-    for issue in issues:
-        # Add text_color to labels to make them more readable
-        for label in issue['labels']:
-            if label['color'] < '888888':
-                label['text_color'] = 'FFFFFF'
-            else:
-                label['text_color'] = '000000'
-
     return render_template('widget.html', issues=issues, labels=labels)
 
 if __name__ == "__main__":
