@@ -52,6 +52,7 @@ def widget():
     # Get optional parameters
     labels = request.args.get('labels', None)
     org_name = request.args.get('organization_name')
+    org_type = request.args.get('org_type')
     number = request.args.get('number')
 
     # Build the url
@@ -61,7 +62,11 @@ def widget():
     issues_url += 'issues'
     if labels:
         issues_url += '/labels/%s' % labels
-    if number:
+    if org_type:
+        issues_url += '?organization_type=%s' % org_type
+        if number:
+            issues_url += '&per_page=%s' % number
+    elif number:
         issues_url += '?per_page=%s' % number
 
     # Get the actual issues from the API
