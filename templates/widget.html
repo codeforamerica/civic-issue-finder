@@ -43,7 +43,6 @@
               <a href="{{ issue.html_url }}" class="billboard" target="_blank" onClick="ga('send', 'event', 'Civic Issues', 'click', '{{ issue.api_url }}', 1 );">
                   <p class="text-whisper">{{ issue.project.name }}</p>
                   <h3 class="billboard-label">{{ issue.title }}</h3>
-                  <p class="issue-body">{{issue.body}}</p>
                   <div class="labels">
                   {% for label in issue.labels %}
                   <div class="label">{{label.name}}</div>
