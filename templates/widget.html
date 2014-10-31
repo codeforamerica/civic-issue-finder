@@ -47,6 +47,14 @@
                   {% for label in issue.labels %}
                   <div class="label">{{label.name}}</div>
                   {% endfor %}
+                  <div class="contributors">
+                      {% for contributor in issue.project.github_details.contributors %}
+                      {# We force width and height since the api doesn't always return size 40 #}
+                      {# This should probably be in css, but it seems not all CSS is controlled in this repo #}
+                      <img height="40" width="40" class="avatar" src="{{ contributor.avatar_url }}&s=40" />
+                      {% endfor %}
+                  </div>
+
                   </div>
               </a>
           </li>
