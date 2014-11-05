@@ -3,3 +3,5 @@ python:
   - "2.7"
 install: pip install -r requirements.txt --use-mirrors
 script:  python tests.py
+notifications:
+  webhooks: http://cfa-project-monitor.herokuapp.com/projects/f16d5385-d040-4a39-b7f5-cdc3de835117/status
