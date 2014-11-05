@@ -2,8 +2,8 @@
 # Imports
 # -------------------
 
-from flask import Flask, render_template, request, redirect, url_for
-import json
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+import json, time
 from requests import get
 from requests.exceptions import ConnectionError
 
@@ -83,6 +83,34 @@ def widget():
     issues = issues_json['objects']
 
     return render_template('widget.html', issues=issues, labels=labels)
+
+@app.route("/geeks/civicissues/.well-known/status")
+def engine_light():
+    ''' Return status information for Engine Light.
+        http://engine-light.codeforamerica.org
+    '''
+
+    status = "OKAY"
+
+    # Check if GitHub avatars are loading.
+    response = get("https://avatars.githubusercontent.com/u/595778?v=2&s=40")
+    if response.status_code != 200:
+        status = "GitHub Avatars not loading."
+
+    # Check if CfAPI is up.
+    response = get("https://codeforamerica.org/api/issues")
+    if response.status_code != 200:
+        status = "CfAPI not returning Issues."
+
+    state = {
+
+        "status" : status,
+        "updated" : int(time.time()),
+        "resources" : [],
+        "dependencies" : ['Github', 'CfAPI']
+    }
+
+    return jsonify(state)
 
 if __name__ == "__main__":
     app.run(debug=True)
