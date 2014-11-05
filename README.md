@@ -1,3 +1,5 @@
+![civictechbatsignal](https://cloud.githubusercontent.com/assets/595778/4911749/f48acede-6492-11e4-9134-16ee771fb238.jpg)
+
 Civic Issue Finder
 =====
 
@@ -17,6 +19,9 @@ This widget can be [accessed directly](http://www.codeforamerica.org/geeks/civic
 ### Summary Video
 [![Kind of long and boring]
 (http://img.youtube.com/vi/CYrpA76xzfA/0.jpg)](https://www.youtube.com/watch?v=CYrpA76xzfA&t=15m05s)
+
+### Blog Post
+http://www.codeforamerica.org/blog/2014/10/30/the-civic-tech-issue-finder/
 
 ### The Embed Code
 
