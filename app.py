@@ -90,7 +90,7 @@ def engine_light():
         http://engine-light.codeforamerica.org
     '''
 
-    status = "OKAY"
+    status = "ok"
 
     # Check if GitHub avatars are loading.
     response = get("https://avatars.githubusercontent.com/u/595778?v=2&s=40")
