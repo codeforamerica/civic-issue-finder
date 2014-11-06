@@ -29,13 +29,13 @@ def embed():
     '''
 
     # Get all of the organizations from the api
-    organizations = get('http://codeforamerica.org/api/organizations?per_page=200')
+    organizations = get('http://codeforamerica.org/api/organizations.geojson')
     organizations = organizations.json()
 
     # Filter out just the organization names
     names = []
-    for org in organizations['objects']:
-        names.append(org['name'])
+    for org in organizations['features']:
+        names.append(org['properties']['name'])
 
     # Alphabetize names
     names.sort()
