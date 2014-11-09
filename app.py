@@ -98,7 +98,7 @@ def engine_light():
         status = "GitHub Avatars not loading."
 
     # Check if CfAPI is up.
-    response = get("http://codeforamerica.org/api/issues")
+    response = get("http://codeforamerica.org/api/issues?per_page=1")
     if response.status_code != 200:
         status = "CfAPI not returning Issues."
 
