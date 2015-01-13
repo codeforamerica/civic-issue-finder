@@ -14,3 +14,10 @@ body {
   font-family: Interstate, 'Gotham A', 'Gotham B', 'Open Sans Regular', Verdana, Helvetica, Arial;
   font-size:0.85em;
 }
+
+.billboard .billboard-label {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
