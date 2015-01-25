@@ -7,8 +7,8 @@ The easiest way to get started with civic hacking.
 This is a small, embeddable, and customizable web app that makes it easy to find open GitHub Issues from across the civic technology movement. It fetches data from the [Code for America API](http://codeforamerica.org/api).
 
 ## How to get your Issues included
-1. Get your Brigade [included on](https://github.com/codeforamerica/cfapi#how-to-add-your-brigade-to-the-api) the CfAPI.
-2. Ensure your project is included in your Brigade's [projects on the CfAPI](http://codeforamerica.org/api/projects). Ask your Captain or Delivery Lead how they included projects or check the `projects_list_url` column for your group on the [Brigade Information](https://docs.google.com/a/codeforamerica.org/spreadsheet/ccc?key=0ArHmv-6U1drqdGNCLWV5Q0d5YmllUzE5WGlUY3hhT2c&usp=drive_web#gid=0) sheet.
+1. Get your group [included on](https://github.com/codeforamerica/cfapi#how-to-add-your-brigade-to-the-api) the CfAPI. Don't worry if your group isn't a Brigade. We're glad to have you!
+2. Ensure your project is included in your group's [projects on the CfAPI](http://codeforamerica.org/api/projects). Ask your Captain or Delivery Lead how they included projects or check the `projects_list_url` column for your group on the [Group Information](https://docs.google.com/a/codeforamerica.org/spreadsheet/ccc?key=0ArHmv-6U1drqdGNCLWV5Q0d5YmllUzE5WGlUY3hhT2c&usp=drive_web#gid=0) sheet.
 3. Create GitHub Issues for your projects. Make sure they are easy to understand. Create and use appropriate GitHub labels. We recommend using "help wanted" whenever it is as we display these issues on the most sites.
 4. The CfAPI updates once an hour. Check back to see if your Issues appear. Send a message to @ondrae if you need help.
 
