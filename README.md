@@ -37,6 +37,8 @@ Example: `<iframe src="https://www.codeforamerica.org/geeks/civicissues/widget?l
 Example: `<iframe src="https://www.codeforamerica.org/geeks/civicissues/widget?number=3" width="100%" height="600" frameBorder="0"> </iframe>`
 
 
+Note: On Code for America sites, please include the `tracking=false` parameter, so that we don't double up on our Google Analytics page views.
+
 ## Installation
 
 The CFAPI is built on [Flask](http://flask.pocoo.org/) and Python with a little bit of Javascript. The `app.py` file describes the routes. The `templates` have the html. `main.js` helps out the embed form.
