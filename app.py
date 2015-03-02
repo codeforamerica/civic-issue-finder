@@ -54,6 +54,7 @@ def widget():
     org_name = request.args.get('organization_name')
     org_type = request.args.get('org_type')
     number = request.args.get('number')
+    tracking_status = request.args.get('tracking')
 
     # Build the url
     issues_url = 'https://www.codeforamerica.org/api/'
@@ -82,7 +83,7 @@ def widget():
     issues_json = issues_response.json()
     issues = issues_json['objects']
 
-    return render_template('widget.html', issues=issues, labels=labels)
+    return render_template('widget.html', issues=issues, labels=labels, tracking_status=tracking_status)
 
 @app.route("/geeks/civicissues/.well-known/status")
 def engine_light():
@@ -113,4 +114,4 @@ def engine_light():
     return jsonify(state)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=7654,debug=True)
