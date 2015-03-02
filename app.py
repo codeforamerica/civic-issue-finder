@@ -114,4 +114,4 @@ def engine_light():
     return jsonify(state)
 
 if __name__ == "__main__":
-    app.run(port=7654,debug=True)
+    app.run(debug=True)
