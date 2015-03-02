@@ -62,5 +62,10 @@ class AppTestCase(TestCase):
             response = self.client.get('/geeks/civicissues/widget?number=2')
             assert (response.data.count('<li class="layout-crotchet">') == 2)
 
+    def test_widget_tracking(self):
+        with HTTMock(self.response_content):
+            response = self.client.get('/geeks/civicissues/widget?tracking=false')
+            self.assertTrue("GoogleAnalyticsObject" not in response.data)
+
 if __name__ == '__main__':
     unittest.main()
