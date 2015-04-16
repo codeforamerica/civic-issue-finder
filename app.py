@@ -2,8 +2,8 @@
 # Imports
 # -------------------
 
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-import json, time
+from flask import Flask, render_template, request, jsonify
+import time
 from requests import get
 from requests.exceptions import ConnectionError
 
@@ -11,7 +11,7 @@ from requests.exceptions import ConnectionError
 # Init
 # -------------------
 
-app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissues/static')
+app = Flask(__name__, static_folder='static', static_url_path='/geeks/civicissues/static')
 
 # -------------------
 # Routes
@@ -73,7 +73,7 @@ def widget():
     # Get the actual issues from the API
     try:
         issues_response = get(issues_url)
-    except ConnectionError, e:
+    except ConnectionError:
         return render_template('widget.html', error=True)
 
     if issues_response.status_code != 200:
@@ -104,11 +104,10 @@ def engine_light():
         status = "CfAPI not returning Issues."
 
     state = {
-
-        "status" : status,
-        "updated" : int(time.time()),
-        "resources" : [],
-        "dependencies" : ['Github', 'CfAPI']
+        "status": status,
+        "updated": int(time.time()),
+        "resources": [],
+        "dependencies": ['Github', 'CfAPI']
     }
 
     return jsonify(state)

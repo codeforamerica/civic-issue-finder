@@ -6,7 +6,6 @@ import unittest
 from httmock import response, HTTMock, all_requests
 from flask.ext.testing import TestCase
 from app import app
-import flask
 
 class AppTestCase(TestCase):
 
@@ -18,7 +17,7 @@ class AppTestCase(TestCase):
     @all_requests
     def response_content(self, url, request):
         if url.geturl() == 'https://www.codeforamerica.org/api/organizations?per_page=200':
-            return response(200, ''' {"objects":[{"name":"Code for America"}]} ''' )
+            return response(200, ''' {"objects":[{"name":"Code for America"}]} ''')
 
         elif url.geturl() == 'https://www.codeforamerica.org/api/organizations/Code-for-America/issues':
             return response(200, ''' {"objects":[{"html_url":"https://github.com/TESTORG/TESTREPO/issues/1","project":{"github_details":{"contributors":[{"avatar_url":"https://TESTIMAGEURL.com"}]}},"title":"TEST TITLE"}]}''')
