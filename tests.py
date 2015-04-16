@@ -30,6 +30,10 @@ class AppTestCase(TestCase):
 
         elif url.geturl() == 'https://www.codeforamerica.org/api/issues?per_page=2':
             return response(200, ''' {"objects":[{"html_url":"https://github.com/TESTORG/TESTREPO/issues/1","labels":[],"project":{"github_details":{"contributors":[{"avatar_url":"https://TESTIMAGEURL.com"}]}},"title":"TEST TITLE"}, {"html_url":"https://github.com/TESTORG/TESTREPO/issues/2","labels":[],"project":{"github_details":{"contributors":[{"avatar_url":"https://TESTIMAGEURL.com"}]}},"title":"TEST TITLE TWO"}]}''')
+        elif url.geturl() == 'https://www.codeforamerica.org/api/organizations.geojson':
+            return response(200, '''{"features": [{"geometry": {"coordinates": [-122.4137,37.7759], "type": "Point"}, "id": "Code-for-America", "properties": {"all_events": "http://www.codeforamerica.org/api/organizations/Code-for-America/events", "all_issues": "http://www.codeforamerica.org/api/organizations/Code-for-America/issues", "all_projects": "http://www.codeforamerica.org/api/organizations/Code-for-America/projects", "all_stories": "http://www.codeforamerica.org/api/organizations/Code-for-America/stories", "api_url": "http://www.codeforamerica.org/api/organizations/Code-for-America", "city": "San Francisco, CA", "events_url": "", "last_updated": 1429211091, "latitude": 37.7759, "longitude": -122.4137, "name": "Code for America", "past_events": "http://www.codeforamerica.org/api/organizations/Code-for-America/past_events", "projects_list_url": "https://github.com/codeforamerica", "rss": "http://www.codeforamerica.org/blog/", "started_on": "2015-04-13", "type": "Code for All", "upcoming_events": "http://www.codeforamerica.org/api/organizations/Code-for-America/upcoming_events", "website": "http://codeforamerica.org"}, "type": "Feature"}], "type": "FeatureCollection"}''')
+        else:
+            raise Exception('Asked for unknown URL ' + url.geturl())
 
     def test_widget(self):
         with HTTMock(self.response_content):
