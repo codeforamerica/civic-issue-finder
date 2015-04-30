@@ -85,6 +85,16 @@ def widget():
 
     return render_template('widget.html', issues=issues, labels=labels, tracking_status=tracking_status)
 
+
+
+@app.route('/geeks/civicissues/issue/<issue_id>')
+def one_issue(issue_id):
+    ''' Redirect to an issue's HTML URL.
+    '''
+    issue_url = 'https://www.codeforamerica.org/api/issues/{}'.format(issue_id)
+    
+    return redirect(get(issue_url).json().get('html_url'))
+
 @app.route("/geeks/civicissues/.well-known/status")
 def engine_light():
     ''' Return status information for Engine Light.
