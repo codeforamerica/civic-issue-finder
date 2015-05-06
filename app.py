@@ -29,7 +29,7 @@ def embed():
     '''
 
     # Get all of the organizations from the api
-    organizations = get('https://www.codeforamerica.org/api/organizations.geojson')
+    organizations = get('https://publicmedia-cfapi.herokuapp.com/api/organizations.geojson')
     organizations = organizations.json()
 
     # Filter out just the organization names
@@ -57,7 +57,7 @@ def widget():
     tracking_status = request.args.get('tracking')
 
     # Build the url
-    issues_url = 'https://www.codeforamerica.org/api/'
+    issues_url = 'https://publicmedia-cfapi.herokuapp.com/api/'
     if org_name:
         issues_url += 'organizations/%s/' % org_name
     issues_url += 'issues'
@@ -99,7 +99,7 @@ def engine_light():
         status = "GitHub Avatars not loading."
 
     # Check if CfAPI is up.
-    response = get("https://www.codeforamerica.org/api/issues?per_page=1")
+    response = get("https://publicmedia-cfapi.herokuapp.com/api/issues?per_page=1")
     if response.status_code != 200:
         status = "CfAPI not returning Issues."
 
