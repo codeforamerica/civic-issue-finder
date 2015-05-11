@@ -5,7 +5,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json, time
 from requests import get
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, Timeout
 
 # -------------------
 # Init
@@ -29,8 +29,12 @@ def embed():
     '''
 
     # Get all of the organizations from the api
-    organizations = get('https://www.codeforamerica.org/api/organizations.geojson')
-    organizations = organizations.json()
+    try:
+        got = get('https://www.codeforamerica.org/api/organizations.geojson', timeout=5)
+    except Timeout:
+        return render_template('cfapi-timeout.html')
+    else:
+        organizations = got.json()
 
     # Filter out just the organization names
     names = []
@@ -72,7 +76,9 @@ def widget():
 
     # Get the actual issues from the API
     try:
-        issues_response = get(issues_url)
+        issues_response = get(issues_url, timeout=5)
+    except Timeout:
+        return render_template('widget.html', error=True)
     except ConnectionError, e:
         return render_template('widget.html', error=True)
 
@@ -94,14 +100,22 @@ def engine_light():
     status = "ok"
 
     # Check if GitHub avatars are loading.
-    response = get("https://avatars.githubusercontent.com/u/595778?v=2&s=40")
-    if response.status_code != 200:
+    try:
+        response = get("https://avatars.githubusercontent.com/u/595778?v=2&s=40", timeout=5)
+    except:
         status = "GitHub Avatars not loading."
+    else:
+        if response.status_code != 200:
+            status = "GitHub Avatars not loading."
 
     # Check if CfAPI is up.
-    response = get("https://www.codeforamerica.org/api/issues?per_page=1")
-    if response.status_code != 200:
+    try:
+        response = get("https://www.codeforamerica.org/api/issues?per_page=1", timeout=5)
+    except:
         status = "CfAPI not returning Issues."
+    else:
+        if response.status_code != 200:
+            status = "CfAPI not returning Issues."
 
     state = {
 
