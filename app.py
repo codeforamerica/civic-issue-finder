@@ -2,8 +2,8 @@
 # Imports
 # -------------------
 
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-import json, time
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+import json, time, uuid, os
 from requests import get
 from requests.exceptions import ConnectionError
 
@@ -12,6 +12,7 @@ from requests.exceptions import ConnectionError
 # -------------------
 
 app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissues/static')
+app.secret_key = os.environ['SECRET']
 
 # -------------------
 # Routes
@@ -95,6 +96,14 @@ def one_issue(issue_id):
     ''' Redirect to an issue's HTML URL.
     '''
     issue_url = 'https://www.codeforamerica.org/api/issues/{}'.format(issue_id)
+    
+    if 'visitor_id' not in session:
+        session['visitor_id'] = str(uuid.uuid4())
+    
+    timestamp = time.time()
+    remote_addr = request.remote_addr
+    visitor_id = session['visitor_id']
+    referer = request.args.get('referer', '')
     
     return redirect(get(issue_url).json().get('html_url'))
 
