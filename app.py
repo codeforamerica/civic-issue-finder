@@ -82,8 +82,11 @@ def widget():
     # Parse the API response
     issues_json = issues_response.json()
     issues = issues_json['objects']
+    
+    referer = request.headers.get('Referer', '')
 
-    return render_template('widget.html', issues=issues, labels=labels, tracking_status=tracking_status)
+    return render_template('widget.html', issues=issues, labels=labels,
+                           referer=referer, tracking_status=tracking_status)
 
 
 
