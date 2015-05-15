@@ -112,7 +112,8 @@ def widget():
 def one_issue(issue_id):
     ''' Redirect to an issue's HTML URL.
     '''
-    issue_url = expand(urljoin(CFAPI_BASE, 'issues{/issue_id}'), locals())
+    api_url = expand(urljoin(CFAPI_BASE, 'issues{/issue_id}'), locals())
+    issue_url = get(api_url).json().get('html_url')
     
     if 'visitor_id' not in session:
         session['visitor_id'] = str(uuid.uuid4())
@@ -129,7 +130,7 @@ def one_issue(issue_id):
                           VALUES (to_timestamp(%s), %s, %s, %s, %s)''',
                        (timestamp, remote_addr, visitor_id, referer, issue_url))
     
-    return redirect(get(issue_url).json().get('html_url'))
+    return redirect(issue_url)
 
 @app.route("/geeks/civicissues/.well-known/status")
 def engine_light():
