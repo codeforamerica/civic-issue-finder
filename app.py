@@ -19,6 +19,8 @@ app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissu
 app.secret_key = os.environ['SECRET']
 DATABASE_URL = os.environ['DATABASE_URL']
 
+CFAPI_BASE = 'https://www.codeforamerica.org/api/'
+
 # -------------------
 # Routes
 # -------------------
@@ -69,11 +71,14 @@ def widget():
         issues_path_template = 'organizations{/org_name}/issues{?query*}'
     elif labels:
         issues_path_template = 'issues/labels{/labels}{?query*}'
+    else:
+        issues_path_template = 'issues{?query*}'
         
-    issues_url_template = urljoin('https://www.codeforamerica.org/api/', issues_path_template)
+    issues_url_template = urljoin(CFAPI_BASE, issues_path_template)
+    issues_url_kwargs = ('organization_type', org_type), ('per_page', number)
     
     url_args = dict(org_name=org_name, labels=labels,
-                    query=dict(organization_type=org_type, per_page=number))
+                    query={k:v for (k, v) in issues_url_kwargs if v})
     
     issues_url = expand(issues_url_template, url_args)
 
