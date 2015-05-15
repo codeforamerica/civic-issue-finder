@@ -4,6 +4,7 @@
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 import json, time, uuid, os
+from psycopg2 import connect
 from requests import get
 from requests.exceptions import ConnectionError
 
@@ -13,6 +14,7 @@ from requests.exceptions import ConnectionError
 
 app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissues/static')
 app.secret_key = os.environ['SECRET']
+DATABASE_URL = os.environ['DATABASE_URL']
 
 # -------------------
 # Routes
@@ -104,6 +106,13 @@ def one_issue(issue_id):
     remote_addr = request.remote_addr
     visitor_id = session['visitor_id']
     referer = request.args.get('referer', '')
+    
+    with connect(DATABASE_URL) as conn:
+        with conn.cursor() as db:
+            db.execute('''INSERT INTO issue_clicks
+                          (datetime, remote_addr, visitor_id, referer, issue_url)
+                          VALUES (to_timestamp(%s), %s, %s, %s, %s)''',
+                       (timestamp, remote_addr, visitor_id, referer, issue_url))
     
     return redirect(get(issue_url).json().get('html_url'))
 
