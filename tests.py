@@ -26,7 +26,7 @@ class AppTestCase(TestCase):
         elif url.geturl() == 'https://www.codeforamerica.org/api/organizations/Code-for-America/issues':
             return response(200, ''' {"objects":[{"html_url":"https://github.com/TESTORG/TESTREPO/issues/1","project":{"github_details":{"contributors":[{"avatar_url":"https://TESTIMAGEURL.com"}]}},"title":"TEST TITLE"}]}''')
 
-        elif url.geturl() == 'https://www.codeforamerica.org/api/issues/labels/help%20wanted,enhancement':
+        elif url.geturl() == 'https://www.codeforamerica.org/api/issues/labels/help%20wanted%2Cenhancement':
             return response(200, ''' {"objects":[{"html_url":"https://github.com/TESTORG/TESTREPO/issues/1","labels":[{"name": "help wanted"},{"name": "enhancement"}],"project":{"github_details":{"contributors":[{"avatar_url":"https://TESTIMAGEURL.com"}]}},"title":"TEST TITLE"}]}''')
 
         elif url.geturl() == 'https://www.codeforamerica.org/api/issues':
