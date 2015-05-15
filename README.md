@@ -41,27 +41,23 @@ Note: On Code for America sites, please include the `tracking=false` parameter, 
 
 ## Installation
 
-The CFAPI is built on [Flask](http://flask.pocoo.org/) and Python with a little bit of Javascript. The `app.py` file describes the routes. The `templates` have the html. `main.js` helps out the embed form.
+The CFAPI is built on [Flask](http://flask.pocoo.org/) and Python with a
+little bit of Javascript. The `app.py` file describes the routes. The
+`templates` have the html. `main.js` helps out the embed form.
 
-* Set up a [virtualenv](https://pypi.python.org/pypi/virtualenv)
+* Set up a [Python virtual environment](https://github.com/codeforamerica/howto/blob/master/Python-Virtualenv.md).
 
-```
-pip install virtualenv
-virtualenv venv-civicissues
-source venv-civicissues/bin/activate
-```
+* Install the required libraries:
 
-* Install the required libraries
+        pip install -r requirements.txt
 
-```
-pip install -r requirements.txt
-```
+* Set up a [new Postgres database](https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md)
+  and initialize it from `schema.pgsql`.
 
-* To run locally
+* To run locally:
 
-```
-python app.py
-```
+    1. Add `SECRET` and `DATABASE_URL` variables to your environment.
+    2. Run `python app.py`
 
 Contacts
 --------
@@ -72,4 +68,4 @@ Contacts
 Copyright
 ---------
 
-Copyright (c) 2014 Code for America.
+Copyright (c) 2014-2015 Code for America.
