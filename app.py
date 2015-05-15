@@ -37,7 +37,7 @@ def embed():
     '''
 
     # Get all of the organizations from the api
-    organizations = get('https://www.codeforamerica.org/api/organizations.geojson')
+    organizations = get(urljoin(CFAPI_BASE, 'organizations.geojson'))
     organizations = organizations.json()
 
     # Filter out just the organization names
@@ -106,7 +106,7 @@ def widget():
 def one_issue(issue_id):
     ''' Redirect to an issue's HTML URL.
     '''
-    issue_url = 'https://www.codeforamerica.org/api/issues/{}'.format(issue_id)
+    issue_url = expand(urljoin(CFAPI_BASE, 'issues{/issue_id}'), locals())
     
     if 'visitor_id' not in session:
         session['visitor_id'] = str(uuid.uuid4())
@@ -139,7 +139,7 @@ def engine_light():
         status = "GitHub Avatars not loading."
 
     # Check if CfAPI is up.
-    response = get("https://www.codeforamerica.org/api/issues?per_page=1")
+    response = get(urljoin(CFAPI_BASE, 'issues?per_page=1'))
     if response.status_code != 200:
         status = "CfAPI not returning Issues."
 
