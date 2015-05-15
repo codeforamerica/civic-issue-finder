@@ -4,6 +4,9 @@
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 import json, time, uuid, os
+from urlparse import urljoin
+
+from uritemplate import expand
 from psycopg2 import connect
 from requests import get
 from requests.exceptions import ConnectionError
@@ -60,18 +63,19 @@ def widget():
     tracking_status = request.args.get('tracking')
 
     # Build the url
-    issues_url = 'https://www.codeforamerica.org/api/'
-    if org_name:
-        issues_url += 'organizations/%s/' % org_name
-    issues_url += 'issues'
-    if labels:
-        issues_url += '/labels/%s' % labels
-    if org_type:
-        issues_url += '?organization_type=%s' % org_type
-        if number:
-            issues_url += '&per_page=%s' % number
-    elif number:
-        issues_url += '?per_page=%s' % number
+    if org_name and labels:
+        issues_path_template = 'organizations{/org_name}/issues/labels{/labels}{?query*}'
+    elif org_name:
+        issues_path_template = 'organizations{/org_name}/issues{?query*}'
+    elif labels:
+        issues_path_template = 'issues/labels{/labels}{?query*}'
+        
+    issues_url_template = urljoin('https://www.codeforamerica.org/api/', issues_path_template)
+    
+    url_args = dict(org_name=org_name, labels=labels,
+                    query=dict(organization_type=org_type, per_page=number))
+    
+    issues_url = expand(issues_url_template, url_args)
 
     # Get the actual issues from the API
     try:

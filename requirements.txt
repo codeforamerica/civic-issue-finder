@@ -10,3 +10,5 @@ httmock==1.2.2
 itsdangerous==0.24
 psycopg2==2.6
 requests==2.3.0
+simplejson==3.6.5
+uritemplate==0.6
