@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-import unittest
+import unittest, os
+
+os.environ['SECRET'] = 'test secret'
+os.environ['DATABASE_URL'] = 'postgres:///civic_issue_finder_testdb'
 
 from httmock import response, HTTMock, all_requests
 from flask.ext.testing import TestCase

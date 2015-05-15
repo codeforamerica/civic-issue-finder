@@ -2,8 +2,12 @@
 # Imports
 # -------------------
 
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-import json, time
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+import json, time, uuid, os
+from urlparse import urljoin
+
+from uritemplate import expand
+from psycopg2 import connect
 from requests import get
 from requests.exceptions import ConnectionError, Timeout
 
@@ -12,6 +16,10 @@ from requests.exceptions import ConnectionError, Timeout
 # -------------------
 
 app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissues/static')
+app.secret_key = os.environ['SECRET']
+DATABASE_URL = os.environ['DATABASE_URL']
+
+CFAPI_BASE = 'https://www.codeforamerica.org/api/'
 
 # -------------------
 # Routes
@@ -30,7 +38,7 @@ def embed():
 
     # Get all of the organizations from the api
     try:
-        got = get('https://www.codeforamerica.org/api/organizations.geojson', timeout=5)
+        got = get(urljoin(CFAPI_BASE, 'organizations.geojson'), timeout=5)
     except Timeout:
         return render_template('cfapi-timeout.html')
     else:
@@ -61,18 +69,22 @@ def widget():
     tracking_status = request.args.get('tracking')
 
     # Build the url
-    issues_url = 'https://www.codeforamerica.org/api/'
-    if org_name:
-        issues_url += 'organizations/%s/' % org_name
-    issues_url += 'issues'
-    if labels:
-        issues_url += '/labels/%s' % labels
-    if org_type:
-        issues_url += '?organization_type=%s' % org_type
-        if number:
-            issues_url += '&per_page=%s' % number
-    elif number:
-        issues_url += '?per_page=%s' % number
+    if org_name and labels:
+        issues_path_template = 'organizations{/org_name}/issues/labels{/labels}{?query*}'
+    elif org_name:
+        issues_path_template = 'organizations{/org_name}/issues{?query*}'
+    elif labels:
+        issues_path_template = 'issues/labels{/labels}{?query*}'
+    else:
+        issues_path_template = 'issues{?query*}'
+        
+    issues_url_template = urljoin(CFAPI_BASE, issues_path_template)
+    issues_url_kwargs = ('organization_type', org_type), ('per_page', number)
+    
+    url_args = dict(org_name=org_name, labels=labels,
+                    query={k:v for (k, v) in issues_url_kwargs if v})
+    
+    issues_url = expand(issues_url_template, url_args)
 
     # Get the actual issues from the API
     try:
@@ -88,8 +100,36 @@ def widget():
     # Parse the API response
     issues_json = issues_response.json()
     issues = issues_json['objects']
+    
+    referer = request.headers.get('Referer', '')
 
-    return render_template('widget.html', issues=issues, labels=labels, tracking_status=tracking_status)
+    return render_template('widget.html', issues=issues, labels=labels,
+                           referer=referer, tracking_status=tracking_status)
+
+
+
+@app.route('/geeks/civicissues/issue/<issue_id>')
+def one_issue(issue_id):
+    ''' Redirect to an issue's HTML URL.
+    '''
+    issue_url = expand(urljoin(CFAPI_BASE, 'issues{/issue_id}'), locals())
+    
+    if 'visitor_id' not in session:
+        session['visitor_id'] = str(uuid.uuid4())
+    
+    timestamp = time.time()
+    remote_addr = request.remote_addr
+    visitor_id = session['visitor_id']
+    referer = request.args.get('referer', '')
+    
+    with connect(DATABASE_URL) as conn:
+        with conn.cursor() as db:
+            db.execute('''INSERT INTO issue_clicks
+                          (datetime, remote_addr, visitor_id, referer, issue_url)
+                          VALUES (to_timestamp(%s), %s, %s, %s, %s)''',
+                       (timestamp, remote_addr, visitor_id, referer, issue_url))
+    
+    return redirect(get(issue_url).json().get('html_url'))
 
 @app.route("/geeks/civicissues/.well-known/status")
 def engine_light():
@@ -110,7 +150,7 @@ def engine_light():
 
     # Check if CfAPI is up.
     try:
-        response = get("https://www.codeforamerica.org/api/issues?per_page=1", timeout=5)
+        response = get(urljoin(CFAPI_BASE, 'issues?per_page=1'), timeout=5)
     except:
         status = "CfAPI not returning Issues."
     else:

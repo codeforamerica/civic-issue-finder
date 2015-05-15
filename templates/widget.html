@@ -40,7 +40,7 @@
           {% elif issues %}
           {% for issue in issues %}
           <li class="layout-crotchet">
-              <a href="{{ issue.html_url }}" class="billboard" target="_blank" onClick="ga('send', 'event', 'Civic Issues', 'click', '{{ issue.html_url }}', 1 );">
+              <a href="issue/{{ issue.id }}?referer={{ referer|urlencode }}" class="billboard" target="_blank" onClick="ga('send', 'event', 'Civic Issues', 'click', '{{ issue.html_url }}', 1 );">
                   <p class="text-whisper">{{ issue.project.name }}</p>
                   <h3 class="billboard-label">{{ issue.title }}</h3>
                   <div class="labels">
