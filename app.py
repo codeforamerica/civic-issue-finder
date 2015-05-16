@@ -119,7 +119,7 @@ def one_issue(issue_id):
         session['visitor_id'] = str(uuid.uuid4())
     
     timestamp = time.time()
-    remote_addr = request.remote_addr
+    remote_addr = request.headers.get('X-Forwarded-For', request.remote_addr)
     visitor_id = session['visitor_id']
     referer = request.args.get('referer', '')
     
