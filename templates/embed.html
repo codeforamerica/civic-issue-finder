@@ -34,20 +34,8 @@
 
   <body>
     <div class="js-container">
-      <nav class="nav-global-primary">
-      </nav>
 
-<nav class="nav-global-primary">
-      </nav>
-
-      <div id="remote-header"></div>
-
-
-      <script>
-      $(document).ready(function() {
-          $('#remote-header').load('//www.codeforamerica.org/fragments/global-header.html');
-      });
-      </script>
+      {{ header | safe }}
 
       <main role="main">
 
@@ -90,13 +78,7 @@
           </div>
           </section>
 
-        <div id="remote-footer"></div>
-
-      <script>
-      $(document).ready(function() {
-          $('#remote-footer').load('//www.codeforamerica.org/fragments/global-footer.html');
-      });
-      </script>
+        {{ footer | safe }}
 
       </main>
     </div>
