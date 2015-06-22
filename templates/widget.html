@@ -44,17 +44,16 @@
                   <p class="text-whisper">{{ issue.project.name }}</p>
                   <h3 class="billboard-label">{{ issue.title }}</h3>
                   <div class="labels">
-                  {% for label in issue.labels %}
-                  <div class="label">{{label.name}}</div>
-                  {% endfor %}
+                    {% for label in issue.labels %}
+                      <div class="label">{{label.name}}</div>
+                    {% endfor %}
+                  </div>
                   <div class="contributors" style="margin-top:5px;">
                       {% for contributor in issue.project.github_details.contributors %}
                       {# We force width and height since the api doesn't always return size 40 #}
                       {# This should probably be in css, but it seems not all CSS is controlled in this repo #}
                       <img height="40" width="40" class="avatar" url="{{ contributor.avatar_url }}&s=40" style="border-radius: 5px;"/>
                       {% endfor %}
-                  </div>
-
                   </div>
               </a>
           </li>
