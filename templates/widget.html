@@ -40,7 +40,7 @@
           {% elif issues %}
           {% for issue in issues %}
           <li class="layout-crotchet">
-              <a href="issue/{{ issue.id }}?referer={{ referer|urlencode }}" class="billboard" target="_blank" onClick="ga('send', 'event', 'Civic Issues', 'click', '{{ issue.html_url }}', 1 );">
+              <a href="{{ issue.html_url }}" class="billboard" target="_blank" onClick="ga('send', 'event', 'Civic Issues', 'click', '{{ issue.html_url }}', 1 );">
                   <p class="text-whisper">{{ issue.project.name }}</p>
                   <h3 class="billboard-label">{{ issue.title }}</h3>
                   <div class="labels">
@@ -68,14 +68,6 @@
   </body>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-      var elems = document.getElementsByClassName("avatar");
-      for(var i = 0; i < elems.length; ++i)
-      {
-        elems[i].setAttribute('src', elems[i].getAttribute('url'));
-      }
-    });
-   
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -83,9 +75,27 @@
 
     ga('create', 'UA-20825280-1', 'auto');
 
-  {% if (tracking_status != 'false') %}
-    ga('send', 'pageview');
-  {% endif %}
+    // Dont send pageviews if tracking is false
+    {% if (tracking_status != 'false') %}
+      ga('send', 'pageview');
+    {% endif %}
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      // Load the avatars
+      var elems = document.getElementsByClassName("avatar");
+      for(var i = 0; i < elems.length; ++i)
+      {
+        elems[i].setAttribute('src', elems[i].getAttribute('url'));
+      }
+
+      // Send view events for each issue shown
+      var issues = document.querySelectorAll("a");
+      Array.prototype.forEach.call(issues, function(el, i){
+        link_and_referrer = el.href + ",{{ referrer }}"
+        ga('send', 'event', 'Civic Issue View', 'view', link_and_referrer, 1 )
+      });
+    });
+
   </script>
 
 </html>

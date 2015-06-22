@@ -105,12 +105,9 @@ def widget():
     # Parse the API response
     issues_json = issues_response.json()
     issues = issues_json['objects']
-    
-    referer = request.headers.get('Referer', '')
 
-    return render_template('widget.html', issues=issues, labels=labels,
-                           referer=referer, tracking_status=tracking_status)
-
+    return render_template('widget.html', issues=issues,
+            referrer=request.referrer, tracking_status=tracking_status)
 
 
 @app.route('/geeks/civicissues/issue/<issue_id>')
