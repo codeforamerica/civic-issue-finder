@@ -2,12 +2,11 @@
 # Imports
 # -------------------
 
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
-import json, time, uuid, os
+from flask import Flask, render_template, request, jsonify
+import json, time, os
 from urlparse import urljoin
 
 from uritemplate import expand
-from psycopg2 import connect
 from requests import get
 from requests.exceptions import ConnectionError, Timeout
 
@@ -17,7 +16,6 @@ from requests.exceptions import ConnectionError, Timeout
 
 app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissues/static')
 app.secret_key = os.environ['SECRET']
-DATABASE_URL = os.environ['DATABASE_URL']
 
 CFAPI_BASE = 'https://www.codeforamerica.org/api/'
 
@@ -105,37 +103,10 @@ def widget():
     # Parse the API response
     issues_json = issues_response.json()
     issues = issues_json['objects']
-    
-    referer = request.headers.get('Referer', '')
 
-    return render_template('widget.html', issues=issues, labels=labels,
-                           referer=referer, tracking_status=tracking_status)
+    return render_template('widget.html', issues=issues,
+            referrer=request.referrer, tracking_status=tracking_status)
 
-
-
-@app.route('/geeks/civicissues/issue/<issue_id>')
-def one_issue(issue_id):
-    ''' Redirect to an issue's HTML URL.
-    '''
-    api_url = expand(urljoin(CFAPI_BASE, 'issues{/issue_id}'), locals())
-    issue_url = get(api_url).json().get('html_url')
-    
-    if 'visitor_id' not in session:
-        session['visitor_id'] = str(uuid.uuid4())
-    
-    timestamp = time.time()
-    remote_addr = request.headers.get('X-Forwarded-For', request.remote_addr)
-    visitor_id = session['visitor_id']
-    referer = request.args.get('referer', '')
-    
-    with connect(DATABASE_URL) as conn:
-        with conn.cursor() as db:
-            db.execute('''INSERT INTO issue_clicks
-                          (datetime, remote_addr, visitor_id, referer, issue_url)
-                          VALUES (to_timestamp(%s), %s, %s, %s, %s)''',
-                       (timestamp, remote_addr, visitor_id, referer, issue_url))
-    
-    return redirect(issue_url)
 
 @app.route("/geeks/civicissues/.well-known/status")
 def engine_light():
