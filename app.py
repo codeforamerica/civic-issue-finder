@@ -10,6 +10,10 @@ from uritemplate import expand
 from requests import get
 from requests.exceptions import ConnectionError, Timeout
 
+from httplib2 import Http
+from oauth2client.client import SignedJwtAssertionCredentials
+from apiclient.discovery import build
+
 # -------------------
 # Init
 # -------------------
@@ -17,7 +21,60 @@ from requests.exceptions import ConnectionError, Timeout
 app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissues/static')
 app.secret_key = os.environ['SECRET']
 
+# Variables
 CFAPI_BASE = 'https://www.codeforamerica.org/api/'
+GOOGLE_ANALYTICS_PROFILE_ID = "41226190"
+GOOGLE_SERVICE_ACCOUNT_EMAIL = os.environ["GOOGLE_SERVICE_ACCOUNT_EMAIL"]
+GOOGLE_SERVICE_ACCOUNT_SECRET_KEY = os.environ["GOOGLE_SERVICE_ACCOUNT_SECRET_KEY"]
+
+#
+# Setup for all GA queries
+#
+def login_to_google_analytics():
+    credentials = SignedJwtAssertionCredentials(GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_SERVICE_ACCOUNT_SECRET_KEY,
+    'https://www.googleapis.com/auth/analytics.readonly')
+    http = Http()
+    credentials.authorize(http)
+    service = build("analytics", "v3", http=http)
+    return service, credentials.access_token
+
+service, access_token = login_to_google_analytics()
+
+
+# DATA FUNCTIONS
+def get_total_clicks():
+    ''' Get the total clicks from Google Analytics '''
+    results = service.data().ga().get(
+          ids="ga:" + GOOGLE_ANALYTICS_PROFILE_ID,
+          start_date='2014-08-23',
+          end_date='today',
+          metrics='ga:totalEvents',
+          dimensions=None,
+          sort=None,
+          max_results=None,
+          filters='ga:eventCategory==Civic Issues',
+          fields=None).execute()
+
+    total_clicks = results["rows"][0][0]
+    return total_clicks
+
+
+def get_total_views():
+    ''' Get the total views from Google Analytics '''
+    results = service.data().ga().get(
+          ids="ga:" + GOOGLE_ANALYTICS_PROFILE_ID,
+          start_date='2014-08-23',
+          end_date='today',
+          metrics='ga:pageviews',
+          dimensions=None,
+          sort=None,
+          max_results=None,
+          filters='ga:pagePath=@civicissues',
+          fields=None).execute()
+
+    total_views = results["rows"][0][0]
+    return total_views
+
 
 # -------------------
 # Routes
@@ -106,6 +163,17 @@ def widget():
 
     return render_template('widget.html', issues=issues,
             referrer=request.referrer, tracking_status=tracking_status)
+
+
+@app.route("/geeks/civicissues/analytics")
+def analytics():
+
+    # Get Total Clicks
+    total_clicks = get_total_clicks()
+    total_views = get_total_views()
+    clicks_per_view = int(100 * int(total_clicks)/float(int(total_views)))
+
+    return render_template("analytics.html", total_clicks=total_clicks, total_views=total_views, clicks_per_view=clicks_per_view)
 
 
 @app.route("/geeks/civicissues/.well-known/status")
