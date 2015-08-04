@@ -5,6 +5,7 @@
 from flask import Flask, render_template, request, jsonify
 import json, time, os
 from urlparse import urljoin
+from operator import itemgetter
 
 from uritemplate import expand
 from requests import get
@@ -75,6 +76,59 @@ def get_total_views():
     total_views = results["rows"][0][0]
     return total_views
 
+
+def get_weekly_clicks():
+    ''' Get Weekly clicks as a list of lists '''
+    results = service.data().ga().get(
+          ids="ga:" + GOOGLE_ANALYTICS_PROFILE_ID,
+          start_date='2014-08-23',
+          end_date='today',
+          metrics='ga:totalEvents',
+          dimensions='ga:yearWeek',
+          sort=None,
+          max_results=None,
+          filters='ga:eventCategory==Civic Issues',
+          fields=None).execute()
+
+    weekly = results['rows']
+    for week in weekly:
+        week[0] = str(week[0])
+        week[1] = int(week[1])
+    # weekly = [ list( map( int, week ) ) for week in weekly ]
+    return weekly
+
+
+def get_top_embeds():
+    ''' Get top embed sources '''
+    results = service.data().ga().get(
+          ids="ga:" + GOOGLE_ANALYTICS_PROFILE_ID,
+          start_date='2014-08-23',
+          end_date='today',
+          metrics='ga:totalEvents',
+          dimensions='ga:eventLabel',
+          sort='-ga:totalEvents',
+          max_results=1000,
+          filters='ga:eventCategory==Civic Issue View',
+          fields=None).execute()
+
+    sources = []
+    for result in results['rows']:
+        source = result[0].split(',')[1]
+        if source != "None":
+            if '?' in source:
+                source = source.split('?')[0]
+            source = source.split("://")[1]
+            sources.append(source)
+
+    top_embeds = []
+    for source in sources:
+        source_count = [str(source), sources.count(source)]
+        if source_count not in top_embeds:
+            top_embeds.append(source_count)
+
+    top_embeds = sorted(top_embeds, key=itemgetter(1), reverse=True)
+
+    return top_embeds
 
 # -------------------
 # Routes
@@ -172,8 +226,12 @@ def analytics():
     total_clicks = get_total_clicks()
     total_views = get_total_views()
     clicks_per_view = int(100 * int(total_clicks)/float(int(total_views)))
+    weekly = get_weekly_clicks()
+    # embeds = get_top_embeds()
 
-    return render_template("analytics.html", total_clicks=total_clicks, total_views=total_views, clicks_per_view=clicks_per_view)
+    return render_template("analytics.html", total_clicks=total_clicks,
+            total_views=total_views, clicks_per_view=clicks_per_view,
+            weekly=weekly)
 
 
 @app.route("/geeks/civicissues/.well-known/status")

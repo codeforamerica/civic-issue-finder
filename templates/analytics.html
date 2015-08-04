@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Got Issues</title>
+
+    <!-- Check the CfA Style Guide at https://style.codeforamerica.org/ -->
+    <link rel="stylesheet" href="https://style.codeforamerica.org/style/css/main.css">
+    <link rel="stylesheet" href="https://style.codeforamerica.org/style/css/layout.css" media="all and (min-width: 40em)">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://style.codeforamerica.org/1/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" href="https://style.codeforamerica.org/1/style/favicons/60x60/flag-red.png"/>
+
+  </head>
+
+  <body>
+
+    <section>
+      <div class="slab-gray">
+        <div class="layout-breve">
+          <div class="badge-heading badge-graph badge-dark-blue">
+            <h2>Civic Issue Finder Analytics</h2>
+          </div>
+
+          <ul class="bricks bricks-cta bricks-3">
+            
+            <li class="brick badge-heading badge-blue">
+              <a class="brick-link">
+                <h4 class="brick-text">{{ total_clicks }}</h4>
+                <h2 class="brick-heading">Total Clicks</h2>
+              </a>
+            </li>
+
+            <li class="brick badge-heading badge-red">
+              <a class="brick-link">
+                <h4 class="brick-text">{{ total_views }}</h4>
+                <h2 class="brick-heading">Total Page Views</h2>
+              </a>
+            </li>
+      
+            <li class="brick badge-heading badge-dark-blue">
+                <a class="brick-link">
+                    <h4 class="brick-text">{{ clicks_per_view }}%</h4>
+                    <h2 class="brick-heading">Clicks Per Page View</h2>
+                </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+      <div class="layout-breve">
+
+        <div class="badge-heading badge-dark-blue">
+          <h2>Clicks</h2>
+        </div>
+
+        <div id="clickschart" style="width: 100%;"></div>
+
+        <!-- <div class="badge-heading badge-glasses badge-gray">
+          <h3> Embeds </h3>
+        </div>
+
+        <div id="embedschart" style="width: 100%;"></div> -->
+
+      </div>
+
+    </section>
+  
+  </body>
+
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    google.load("visualization", "1.1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawClicksChart);
+
+    function drawClicksChart() {
+      var data = google.visualization.arrayToDataTable(
+        {{ weekly | safe }} , true );
+      var options = {
+        vAxis : {
+          title: 'Clicks',
+          gridlines: {
+              color: 'transparent'
+          }
+        },
+        hAxis : {
+          title: 'Week',
+          gridlines: {
+              color: 'transparent'
+          },
+          showTextEvery : 5
+        },
+        legend: { position: 'none' },
+        // tooltip : {
+        //   trigger: 'none'
+        // },
+        colors: [ "#004b6a" ]
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById('clickschart'));
+      chart.draw(data, options);
+    };
+
+    // google.setOnLoadCallback(drawEmbedsChart);
+
+    // function drawEmbedsChart() {
+    //   var data = google.visualization.arrayToDataTable(
+    //     {{ embeds | safe }} , true );
+    //   var options = {
+    //     'pieHole' : 0.4
+    //   };
+    //   var chart = new google.visualization.PieChart(document.getElementById('embedschart'));
+    //   chart.draw(data, options);
+    // };
+  </script>
+
+</html>

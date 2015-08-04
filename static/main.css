@@ -21,3 +21,43 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.number {
+  color: #69579C;
+}
+
+#list{
+  display: inline;
+}
+
+.brick-heading{
+  font-size:1em;
+}
+
+.brick-text{
+  font-size: 2.7em;
+  margin-top: .5em;
+}
+
+.hideme, .hideme2
+{
+    opacity:0;
+}
+
+#embedschart{
+  height: 20em;
+}
+
+.EventClick{
+  color:black;
+}
+
+#stats{
+  text-align: center;
+}
+
+
+#stat-label {
+  padding-top: 1.5em;
+  margin-bottom: 1em;
+}

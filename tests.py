@@ -88,5 +88,9 @@ class AppTestCase(TestCase):
             self.assertTrue("ga('send', 'pageview');" in response.data)
             self.assertTrue("ga('send', 'event', 'Civic Issue View', 'view', link_and_referrer, 1 )" in response.data)
 
+    def test_analytics(self):
+        response = self.client.get("/geeks/civicissues/analytics")
+        self.assertEqual(response.status_code, 200)
+
 if __name__ == '__main__':
     unittest.main()
