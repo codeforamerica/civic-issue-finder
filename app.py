@@ -234,6 +234,17 @@ def analytics():
             weekly=weekly)
 
 
+@app.route("/geeks/civicissues/analytics/total_clicks")
+def total_clicks():
+    ''' Return total clicks as json '''
+    total_clicks = get_total_clicks()
+    response = {
+      "total_clicks" : total_clicks
+    }
+    return json.dumps(response)
+
+
+
 @app.route("/geeks/civicissues/.well-known/status")
 def engine_light():
     ''' Return status information for Engine Light.
