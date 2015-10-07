@@ -202,7 +202,7 @@ def widget():
 
     # Get the actual issues from the API
     try:
-        issues_response = get(issues_url, timeout=5)
+        issues_response = get(issues_url, timeout=10)
     except Timeout:
         return render_template('widget.html', error=True)
     except ConnectionError, e:
