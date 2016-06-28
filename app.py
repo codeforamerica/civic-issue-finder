@@ -21,6 +21,7 @@ from apiclient.discovery import build
 
 app = Flask(__name__,  static_folder='static', static_url_path='/geeks/civicissues/static')
 app.secret_key = os.environ['SECRET']
+app.url_map.strict_slashes = False
 
 # Variables
 CFAPI_BASE = 'https://www.codeforamerica.org/api/'
