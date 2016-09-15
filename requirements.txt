@@ -1,9 +1,7 @@
 Flask
 Jinja2
-google-api-python-client
 gunicorn
 httmock
 httplib2
-oauth2client
 requests
-pyOpenSSL
+uritemplate
