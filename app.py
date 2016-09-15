@@ -24,7 +24,7 @@ app.secret_key = os.environ['SECRET']
 app.url_map.strict_slashes = False
 
 # Variables
-CFAPI_BASE = 'https://www.codeforamerica.org/api/'
+CFAPI_BASE = 'https://api.codeforamerica.org/api/'
 GOOGLE_ANALYTICS_PROFILE_ID = "41226190"
 GOOGLE_SERVICE_ACCOUNT_EMAIL = os.environ["GOOGLE_SERVICE_ACCOUNT_EMAIL"]
 GOOGLE_SERVICE_ACCOUNT_SECRET_KEY = os.environ["GOOGLE_SERVICE_ACCOUNT_SECRET_KEY"]
