@@ -6,7 +6,7 @@ function updateSnippet () {
   var widget = document.getElementById('widget');
   var number = document.getElementById('number');
 
-  var embedString = 'https://www.codeforamerica.org/geeks/civicissues/widget';
+  var embedString = 'http://civicissues.codeforamerica.org/geeks/civicissues/widget';
   if (org || labels || number){
     embedString += '?'
   }
