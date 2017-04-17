@@ -29,9 +29,7 @@ CFAPI_BASE = 'https://codeforamerica-api.herokuapp.com/api/'
 
 @app.route('/geeks/civicissues')
 def index():
-    header = get("http://www.codeforamerica.org/fragments/global-header.html")
-    footer = get("http://www.codeforamerica.org/fragments/global-footer.html")
-    return render_template('index.html', header=header.content, footer=footer.content)
+    return render_template('index.html')
 
 
 @app.route('/geeks/civicissues/embed')
@@ -39,10 +37,6 @@ def embed():
     '''
     Show an editable embed form
     '''
-
-    header = get("http://www.codeforamerica.org/fragments/global-header.html")
-    footer = get("http://www.codeforamerica.org/fragments/global-footer.html")
-
     # Get all of the organizations from the api
     try:
         got = get(urljoin(CFAPI_BASE, 'organizations.geojson'), timeout=5)
@@ -60,7 +54,7 @@ def embed():
     names.sort()
 
     # Render index and pass in all of the organization names
-    return render_template('embed.html', organization_names=names, header=header.content, footer=footer.content)
+    return render_template('embed.html', organization_names=names)
 
 
 @app.route('/geeks/civicissues/widget')
